@@ -55,10 +55,10 @@ export default function ProfilePage() {
         return;
       }
       try {
-        const res = await fetch("/users/profile", {
+        const res = await fetch("/api/v1/users/profile", {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+            // "Content-Type": "application/json",
           },
         });
         if (!res.ok) {
