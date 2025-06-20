@@ -21,9 +21,8 @@ const GiftCardManagement = () => {
   });
   const [errors, setErrors] = useState({});
 
-  // API base URL - adjust according to your setup
-   const BACKEND_URL = import.meta.env?.VITE_BACKEND_URL ;
-  const API_BASE = import.meta.env?.VITE_BACKEND_URL;
+
+  const API_BASE = import.meta.env.VITE_BACKEND_URL/giftcards;
 
   // Fetch gift cards
   const fetchGiftCards = async (page = 1, search = '', active = 'all') => {
