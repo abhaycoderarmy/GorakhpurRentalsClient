@@ -68,7 +68,7 @@ export default function ProfilePage() {
 
     // Simulate API call
     setTimeout(() => {
-      setUser({ ...form });
+      ssetUser({ ...user, ...form });
       showToast("Profile updated successfully!");
       setIsEditing(false);
       setIsUpdating(false);
@@ -195,10 +195,10 @@ export default function ProfilePage() {
                         </label>
                       )}
                     </div>
-                    <h2 className="text-3xl font-bold mb-3">{user?.name}</h2>
+                    <h2 className="text-3xl font-bold mb-3">{user?.name || "Not Provided"}</h2>
                     <div className="flex items-center gap-2 text-purple-100 mb-4">
                       <Mail className="w-5 h-5" />
-                      <span className="text-sm font-medium">{user?.email}</span>
+                      <span className="text-sm font-medium">{user?.email || "Loading..."}</span>
                     </div>
                     <div className="flex items-center gap-2 text-purple-100">
                       <MapPin className="w-4 h-4" />
@@ -315,7 +315,7 @@ export default function ProfilePage() {
                           <p className="text-xs text-pink-600">Personal Identity</p>
                         </div>
                       </div>
-                      <p className="text-2xl font-bold text-gray-800">{user.name || "Not provided"}</p>
+                      <p className="text-2xl font-bold text-gray-800">{user?.name || "Not provided"}</p>
                     </div>
 
                     <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-6 border border-blue-100/50 hover:shadow-lg transition-all duration-300 group">
@@ -328,7 +328,7 @@ export default function ProfilePage() {
                           <p className="text-xs text-blue-600">Primary Contact</p>
                         </div>
                       </div>
-                      <p className="text-2xl font-bold text-gray-800 break-all">{user.email || "Not provided"}</p>
+                      <p className="text-2xl font-bold text-gray-800 break-all">{user?.email || "Not provided"}</p>
                     </div>
 
                     <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-3xl p-6 border border-green-100/50 hover:shadow-lg transition-all duration-300 group">
@@ -341,7 +341,7 @@ export default function ProfilePage() {
                           <p className="text-xs text-green-600">Phone Number</p>
                         </div>
                       </div>
-                      <p className="text-2xl font-bold text-gray-800">{user.contactNumber || "Not provided"}</p>
+                      <p className="text-2xl font-bold text-gray-800">{user?.contactNumber || "Not provided"}</p>
                     </div>
 
                     <div className="bg-gradient-to-br from-purple-50 to-violet-50 rounded-3xl p-6 border border-purple-100/50 hover:shadow-lg transition-all duration-300 group">
@@ -354,7 +354,7 @@ export default function ProfilePage() {
                           <p className="text-xs text-purple-600">Postal Code</p>
                         </div>
                       </div>
-                      <p className="text-2xl font-bold text-gray-800">{user.pincode || "Not provided"}</p>
+                      <p className="text-2xl font-bold text-gray-800">{user?.pincode || "Not provided"}</p>
                     </div>
                   </div>
 
@@ -368,7 +368,7 @@ export default function ProfilePage() {
                         <p className="text-xs text-orange-600">Residential Location</p>
                       </div>
                     </div>
-                    <p className="text-2xl font-bold text-gray-800 leading-relaxed">{user.address || "Not provided"}</p>
+                    <p className="text-2xl font-bold text-gray-800 leading-relaxed">{user?.address || "Not provided"}</p>
                   </div>
                 </div>
               ) : (
