@@ -170,9 +170,9 @@ export default function ProfilePage() {
                   <div className="flex flex-col items-center text-center">
                     <div className="relative mb-6 group">
                       <div className="w-36 h-36 rounded-full border-4 border-white/30 shadow-2xl overflow-hidden bg-white/20 backdrop-blur-sm group-hover:scale-105 transition-transform duration-300">
-                        {(form.profilePhoto || user.profilePhoto) ? (
+                        {(form.profilePhoto || user?.profilePhoto) ? (
                           <img
-                            src={form.profilePhoto || user.profilePhoto}
+                            src={form.profilePhoto || user?.profilePhoto}
                             alt="Profile"
                             className="w-full h-full object-cover"
                             onError={(e) => (e.target.style.display = "none")}
@@ -195,14 +195,14 @@ export default function ProfilePage() {
                         </label>
                       )}
                     </div>
-                    <h2 className="text-3xl font-bold mb-3">{user.name}</h2>
+                    <h2 className="text-3xl font-bold mb-3">{user?.name}</h2>
                     <div className="flex items-center gap-2 text-purple-100 mb-4">
                       <Mail className="w-5 h-5" />
-                      <span className="text-sm font-medium">{user.email}</span>
+                      <span className="text-sm font-medium">{user?.email}</span>
                     </div>
                     <div className="flex items-center gap-2 text-purple-100">
                       <MapPin className="w-4 h-4" />
-                      <span className="text-sm">{user.address?.split(',')[0] || "No address"}</span>
+                     <span className="text-sm">{user?.address?.split(',')[0] || "No address"}</span>
                     </div>
                   </div>
                 </div>
