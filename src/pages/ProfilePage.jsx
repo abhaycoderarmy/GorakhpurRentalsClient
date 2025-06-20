@@ -37,8 +37,7 @@ export default function ProfilePage() {
   const [toasts, setToasts] = useState([]);
 
   // Get token from localStorage
-  const token =
-    typeof window !== "undefined" ? localStorage.getItem("token") || "" : "";
+  const token = localStorage.getItem("token") ;
 
   const showToast = (message, type = "success") => {
     const id = Date.now();
@@ -56,7 +55,7 @@ export default function ProfilePage() {
         return;
       }
       try {
-        const res = await fetch("/api/v1/users/profile", {
+        const res = await fetch("/users/profile", {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
