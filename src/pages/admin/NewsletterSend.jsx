@@ -29,7 +29,7 @@ const NewsletterAdmin = () => {
     setError('');
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/v1/newsletter/stats', {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/newsletter/stats`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -80,7 +80,7 @@ const NewsletterAdmin = () => {
           formData.append('image', file);
           
           const token = localStorage.getItem('token');
-          const response = await fetch('/api/v1/newsletter/upload-image', {
+          const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/newsletter/upload-image`, {
             method: 'POST',
             headers: {
               'Authorization': `Bearer ${token}`
@@ -198,7 +198,7 @@ const NewsletterAdmin = () => {
       const emailBody = body;
 
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/v1/newsletter/send', {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/newsletter/send`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
