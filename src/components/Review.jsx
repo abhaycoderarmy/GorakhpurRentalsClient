@@ -41,7 +41,7 @@ const RatingDistribution = ({ ratingStats }) => {
   const { averageRating, totalReviews, ratingDistribution } = ratingStats;
 
   return (
-    <div className="bg-gray-50 p-6 rounded-lg">
+    <div className="bg-pink-100 p-6 rounded-lg">
       <h3 className="text-lg font-semibold mb-4">Customer Reviews</h3>
       
       <div className="flex items-center space-x-4 mb-4">
@@ -191,7 +191,7 @@ const WriteReview = ({ productId, onReviewSubmitted, existingReview, onCancel })
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg border">
+    <div className="bg-pink-50 p-6 rounded-lg border">
       <h3 className="text-lg font-semibold mb-4">
         {existingReview ? 'Edit Review' : 'Write a Review'}
       </h3>
@@ -460,13 +460,13 @@ const ReviewItem = ({ review, currentUser, onReviewUpdated, onReviewDeleted }) =
 
       {review.images && review.images.length > 0 && (
         <div className="mb-4">
-          <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {review.images.map((image, index) => (
               <img
                 key={index}
                 src={image.url}
                 alt={`Review image ${index + 1}`}
-                className="w-full h-16 object-cover rounded-md cursor-pointer hover:opacity-80"
+                className="w-full h-24 object-contain bg-pink-50 rounded-md cursor-pointer hover:opacity-80 border"
                 onClick={() => {
                   setSelectedImageIndex(index);
                   setShowImages(true);

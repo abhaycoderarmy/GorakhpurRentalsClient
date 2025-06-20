@@ -378,11 +378,11 @@ const AdminDashboard = ({ user, onNavigate }) => {
       action: "/admin/add-product"
     },
     { 
-      title: "View Analytics", 
-      description: "Check your business performance", 
+      title: "View Reviews", 
+      description: "Check what Customers Reviews", 
       icon: BarChart3, 
       color: "from-blue-500 to-indigo-600",
-      action: "/admin/analytics"
+      action: "/admin/review-management"
     },
     { 
       title: "Manage Orders", 

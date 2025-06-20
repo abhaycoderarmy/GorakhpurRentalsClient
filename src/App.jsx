@@ -25,6 +25,7 @@ import ContactUs from "./pages/ContactUs";
 import EditProduct from "./components/EditProduct";
 import AdminFooter from "./pages/admin/AdminFooter";
 import GiftCardManagement from "./pages/admin/GiftCardMangement";
+import AdminReviewManagement from "./pages/admin/ManageReviews";
 
 export default function App() {
   const location = useLocation();
@@ -62,6 +63,7 @@ export default function App() {
             }
           />
           <Route path="/admin/analytics" element={<Analytics />} />
+           <Route path="/admin/review-management" element={<AdminReviewManagement />} />
           <Route path="/admin/products" element={<ManageProducts />} />
           <Route path="/admin/add-product" element={<AddProduct />} />
           <Route path="/admin/users" element={<ManageUsers />} />
