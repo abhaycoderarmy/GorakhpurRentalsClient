@@ -1,6 +1,24 @@
 import { useState, useEffect } from "react";
 
-import { User, Edit3, Lock, Camera, MapPin, Phone, Mail, Hash, Home, Check, X, Eye, EyeOff, Sparkles, Settings, Shield, Bell } from "lucide-react";
+import {
+  User,
+  Edit3,
+  Lock,
+  Camera,
+  MapPin,
+  Phone,
+  Mail,
+  Hash,
+  Home,
+  Check,
+  X,
+  Eye,
+  EyeOff,
+  Sparkles,
+  Settings,
+  Shield,
+  Bell,
+} from "lucide-react";
 import Footer from "../components/Footer";
 
 export default function ProfilePage() {
@@ -10,19 +28,23 @@ export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [isPasswordDialogOpen, setPasswordDialogOpen] = useState(false);
-  const [passwords, setPasswords] = useState({ password: "", confirmPassword: "" });
+  const [passwords, setPasswords] = useState({
+    password: "",
+    confirmPassword: "",
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [toasts, setToasts] = useState([]);
 
   // Get token from localStorage
-  const token = typeof window !== 'undefined' ? localStorage.getItem("token") || "" : "";
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("token") || "" : "";
 
   const showToast = (message, type = "success") => {
     const id = Date.now();
-    setToasts(prev => [...prev, { id, message, type }]);
+    setToasts((prev) => [...prev, { id, message, type }]);
     setTimeout(() => {
-      setToasts(prev => prev.filter(toast => toast.id !== id));
+      setToasts((prev) => prev.filter((toast) => toast.id !== id));
     }, 4000);
   };
 
@@ -35,10 +57,18 @@ export default function ProfilePage() {
       }
       try {
         const res = await fetch("/api/v1/users/profile", {
-          headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        if (!res.ok) {
+          const errorText = await res.text();
+          console.error("API Error:", errorText);
+          throw new Error(`HTTP ${res.status}: ${errorText}`);
+        }
         const data = await res.json();
+        console.log("API Response:", data);
         const userData = data.user || data;
         setUser(userData);
         setForm(userData);
@@ -51,12 +81,17 @@ export default function ProfilePage() {
     fetchProfile();
   }, [token]);
 
- const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    setForm({ ...form, profilePhotoFile: file, profilePhoto: URL.createObjectURL(file) });
+    setForm({
+      ...form,
+      profilePhotoFile: file,
+      profilePhoto: URL.createObjectURL(file),
+    });
   };
 
   const handleUpdate = async () => {
@@ -98,8 +133,12 @@ export default function ProfilePage() {
             <div className="absolute inset-2 w-20 h-20 bg-gradient-to-r from-purple-400 to-indigo-400 rounded-full opacity-20 animate-pulse"></div>
           </div>
           <div className="mt-8 space-y-2">
-            <p className="text-gray-700 font-semibold text-lg">Loading your profile...</p>
-            <p className="text-gray-500 text-sm">Please wait while we fetch your data</p>
+            <p className="text-gray-700 font-semibold text-lg">
+              Loading your profile...
+            </p>
+            <p className="text-gray-500 text-sm">
+              Please wait while we fetch your data
+            </p>
           </div>
         </div>
       </div>
@@ -117,12 +156,12 @@ export default function ProfilePage() {
 
       {/* Toast Container */}
       <div className="fixed top-6 right-6 z-50 space-y-3">
-        {toasts.map(toast => (
+        {toasts.map((toast) => (
           <div
             key={toast.id}
             className={`px-6 py-4 rounded-2xl shadow-2xl backdrop-blur-md border transform transition-all duration-500 animate-in slide-in-from-right ${
-              toast.type === "success" 
-                ? "bg-emerald-100/90 border-emerald-200 text-emerald-800" 
+              toast.type === "success"
+                ? "bg-emerald-100/90 border-emerald-200 text-emerald-800"
                 : "bg-red-100/90 border-red-200 text-red-800"
             }`}
           >
@@ -170,7 +209,7 @@ export default function ProfilePage() {
                   <div className="flex flex-col items-center text-center">
                     <div className="relative mb-6 group">
                       <div className="w-36 h-36 rounded-full border-4 border-white/30 shadow-2xl overflow-hidden bg-white/20 backdrop-blur-sm group-hover:scale-105 transition-transform duration-300">
-                        {(form.profilePhoto || user?.profilePhoto) ? (
+                        {form.profilePhoto || user?.profilePhoto ? (
                           <img
                             src={form.profilePhoto || user?.profilePhoto}
                             alt="Profile"
@@ -186,23 +225,29 @@ export default function ProfilePage() {
                       {isEditing && (
                         <label className="absolute bottom-2 right-2 bg-white text-purple-600 p-3 rounded-full shadow-xl cursor-pointer hover:bg-purple-50 transition-all duration-300 hover:scale-110">
                           <Camera className="w-5 h-5" />
-                          <input 
-                            type="file" 
-                            accept="image/*" 
+                          <input
+                            type="file"
+                            accept="image/*"
                             onChange={handleImageUpload}
                             className="hidden"
                           />
                         </label>
                       )}
                     </div>
-                    <h2 className="text-3xl font-bold mb-3">{user?.name || "Not Provided"}</h2>
+                    <h2 className="text-3xl font-bold mb-3">
+                      {user?.name || "Not Provided"}
+                    </h2>
                     <div className="flex items-center gap-2 text-purple-100 mb-4">
                       <Mail className="w-5 h-5" />
-                      <span className="text-sm font-medium">{user?.email || "Loading..."}</span>
+                      <span className="text-sm font-medium">
+                        {user?.email || "Loading..."}
+                      </span>
                     </div>
                     <div className="flex items-center gap-2 text-purple-100">
                       <MapPin className="w-4 h-4" />
-                     <span className="text-sm">{user?.address?.split(',')[0] || "No address"}</span>
+                      <span className="text-sm">
+                        {user?.address?.split(",")[0] || "No address"}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -247,7 +292,10 @@ export default function ProfilePage() {
                       )}
                     </button>
                     <button
-                      onClick={() => { setForm(user); setIsEditing(false); }}
+                      onClick={() => {
+                        setForm(user);
+                        setIsEditing(false);
+                      }}
                       disabled={isUpdating}
                       className="w-full bg-gradient-to-r from-gray-600 to-slate-700 text-white py-4 px-6 rounded-2xl hover:from-gray-700 hover:to-slate-800 transition-all duration-300 flex items-center justify-center gap-3 shadow-xl disabled:opacity-60 transform hover:scale-105 font-semibold"
                     >
@@ -267,7 +315,9 @@ export default function ProfilePage() {
                     <Shield className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500 font-medium">Security</p>
+                    <p className="text-xs text-gray-500 font-medium">
+                      Security
+                    </p>
                     <p className="text-sm font-bold text-gray-800">Protected</p>
                   </div>
                 </div>
@@ -311,11 +361,17 @@ export default function ProfilePage() {
                           <User className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                          <label className="text-sm font-bold text-pink-700 uppercase tracking-wider">Full Name</label>
-                          <p className="text-xs text-pink-600">Personal Identity</p>
+                          <label className="text-sm font-bold text-pink-700 uppercase tracking-wider">
+                            Full Name
+                          </label>
+                          <p className="text-xs text-pink-600">
+                            Personal Identity
+                          </p>
                         </div>
                       </div>
-                      <p className="text-2xl font-bold text-gray-800">{user?.name || "Not provided"}</p>
+                      <p className="text-2xl font-bold text-gray-800">
+                        {user?.name || "Not provided"}
+                      </p>
                     </div>
 
                     <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-6 border border-blue-100/50 hover:shadow-lg transition-all duration-300 group">
@@ -324,11 +380,17 @@ export default function ProfilePage() {
                           <Mail className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                          <label className="text-sm font-bold text-blue-700 uppercase tracking-wider">Email Address</label>
-                          <p className="text-xs text-blue-600">Primary Contact</p>
+                          <label className="text-sm font-bold text-blue-700 uppercase tracking-wider">
+                            Email Address
+                          </label>
+                          <p className="text-xs text-blue-600">
+                            Primary Contact
+                          </p>
                         </div>
                       </div>
-                      <p className="text-2xl font-bold text-gray-800 break-all">{user?.email || "Not provided"}</p>
+                      <p className="text-2xl font-bold text-gray-800 break-all">
+                        {user?.email || "Not provided"}
+                      </p>
                     </div>
 
                     <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-3xl p-6 border border-green-100/50 hover:shadow-lg transition-all duration-300 group">
@@ -337,11 +399,15 @@ export default function ProfilePage() {
                           <Phone className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                          <label className="text-sm font-bold text-green-700 uppercase tracking-wider">Contact Number</label>
+                          <label className="text-sm font-bold text-green-700 uppercase tracking-wider">
+                            Contact Number
+                          </label>
                           <p className="text-xs text-green-600">Phone Number</p>
                         </div>
                       </div>
-                      <p className="text-2xl font-bold text-gray-800">{user?.contactNumber || "Not provided"}</p>
+                      <p className="text-2xl font-bold text-gray-800">
+                        {user?.contactNumber || "Not provided"}
+                      </p>
                     </div>
 
                     <div className="bg-gradient-to-br from-purple-50 to-violet-50 rounded-3xl p-6 border border-purple-100/50 hover:shadow-lg transition-all duration-300 group">
@@ -350,11 +416,15 @@ export default function ProfilePage() {
                           <Hash className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                          <label className="text-sm font-bold text-purple-700 uppercase tracking-wider">Pin Code</label>
+                          <label className="text-sm font-bold text-purple-700 uppercase tracking-wider">
+                            Pin Code
+                          </label>
                           <p className="text-xs text-purple-600">Postal Code</p>
                         </div>
                       </div>
-                      <p className="text-2xl font-bold text-gray-800">{user?.pincode || "Not provided"}</p>
+                      <p className="text-2xl font-bold text-gray-800">
+                        {user?.pincode || "Not provided"}
+                      </p>
                     </div>
                   </div>
 
@@ -364,11 +434,17 @@ export default function ProfilePage() {
                         <Home className="w-6 h-6 text-white" />
                       </div>
                       <div>
-                        <label className="text-sm font-bold text-orange-700 uppercase tracking-wider">Complete Address</label>
-                        <p className="text-xs text-orange-600">Residential Location</p>
+                        <label className="text-sm font-bold text-orange-700 uppercase tracking-wider">
+                          Complete Address
+                        </label>
+                        <p className="text-xs text-orange-600">
+                          Residential Location
+                        </p>
                       </div>
                     </div>
-                    <p className="text-2xl font-bold text-gray-800 leading-relaxed">{user?.address || "Not provided"}</p>
+                    <p className="text-2xl font-bold text-gray-800 leading-relaxed">
+                      {user?.address || "Not provided"}
+                    </p>
                   </div>
                 </div>
               ) : (
@@ -446,9 +522,8 @@ export default function ProfilePage() {
         </div>
 
         {/* Footer */}
-        
       </div>
-<Footer />
+      <Footer />
       {/* Password Reset Modal */}
       {isPasswordDialogOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
@@ -457,18 +532,24 @@ export default function ProfilePage() {
               <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Lock className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">Update Password</h3>
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                Update Password
+              </h3>
               <p className="text-gray-600">Enter your new password below</p>
             </div>
 
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700">New Password</label>
+                <label className="text-sm font-semibold text-gray-700">
+                  New Password
+                </label>
                 <div className="relative">
                   <input
                     type={showPassword ? "text" : "password"}
                     value={passwords.password}
-                    onChange={(e) => setPasswords({ ...passwords, password: e.target.value })}
+                    onChange={(e) =>
+                      setPasswords({ ...passwords, password: e.target.value })
+                    }
                     className="w-full border-2 border-gray-200 px-4 py-3 pr-12 rounded-xl focus:ring-4 focus:ring-pink-100 focus:border-pink-400 transition-all duration-300"
                     placeholder="Enter new password"
                   />
@@ -477,18 +558,29 @@ export default function ProfilePage() {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                   >
-                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    {showPassword ? (
+                      <EyeOff className="w-5 h-5" />
+                    ) : (
+                      <Eye className="w-5 h-5" />
+                    )}
                   </button>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700">Confirm Password</label>
+                <label className="text-sm font-semibold text-gray-700">
+                  Confirm Password
+                </label>
                 <div className="relative">
                   <input
                     type={showConfirmPassword ? "text" : "password"}
                     value={passwords.confirmPassword}
-                    onChange={(e) => setPasswords({ ...passwords, confirmPassword: e.target.value })}
+                    onChange={(e) =>
+                      setPasswords({
+                        ...passwords,
+                        confirmPassword: e.target.value,
+                      })
+                    }
                     className="w-full border-2 border-gray-200 px-4 py-3 pr-12 rounded-xl focus:ring-4 focus:ring-pink-100 focus:border-pink-400 transition-all duration-300"
                     placeholder="Confirm new password"
                   />
@@ -497,7 +589,11 @@ export default function ProfilePage() {
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                   >
-                    {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    {showConfirmPassword ? (
+                      <EyeOff className="w-5 h-5" />
+                    ) : (
+                      <Eye className="w-5 h-5" />
+                    )}
                   </button>
                 </div>
               </div>
