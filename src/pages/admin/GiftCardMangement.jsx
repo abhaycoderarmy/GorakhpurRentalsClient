@@ -22,7 +22,7 @@ const GiftCardManagement = () => {
   const [errors, setErrors] = useState({});
 
 
-  const API_BASE = import.meta.env.VITE_BACKEND_URL/giftcards;
+  const API_BASE = `${import.meta.env.VITE_BACKEND_URL}/giftcards`;
 
   // Fetch gift cards
   const fetchGiftCards = async (page = 1, search = '', active = 'all') => {
