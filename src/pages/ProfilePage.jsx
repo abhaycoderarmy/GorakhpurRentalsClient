@@ -68,7 +68,7 @@ export default function ProfilePage() {
 
     // Simulate API call
     setTimeout(() => {
-      ssetUser({ ...user, ...form });
+      setUser({ ...user, ...form });
       showToast("Profile updated successfully!");
       setIsEditing(false);
       setIsUpdating(false);
