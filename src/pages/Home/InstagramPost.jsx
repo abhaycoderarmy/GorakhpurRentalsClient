@@ -3,7 +3,7 @@ import React from 'react';
 const InstagramFollowBanner = () => {
   const handleInstagramClick = () => {
     // Replace with your actual Instagram handle
-    window.open('https://www.instagram.com/your_handle/', '_blank');
+    window.open('https://www.instagram.com/gorakhpurrentalstudio/', '_blank');
   };
 
   return (

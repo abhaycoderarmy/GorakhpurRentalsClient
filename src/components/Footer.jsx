@@ -109,7 +109,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <a
-                    href="tel:+91XXXXXXXXXX"
+                    href="tel:+919721288883"
                     className="flex items-center gap-2 text-gray-600 hover:text-pink-700 hover:translate-x-1 transition-all duration-200"
                   >
                     <Phone size={16} className="text-pink-500" />
@@ -204,10 +204,10 @@ export default function Footer() {
               <span className="text-gray-600 text-sm">Follow Us:</span>
               <div className="flex items-center gap-3">
                 {[
-                  { icon: Facebook, href: "#" },
-                  { icon: Instagram, href: "#" },
-                  { icon: Twitter, href: "#" },
-                  { icon: Youtube, href: "#" },
+                  { icon: Facebook, href: "https://www.instagram.com/gorakhpurrentalstudio/" },
+                  { icon: Instagram, href: "https://www.instagram.com/gorakhpurrentalstudio/" },
+                  { icon: Twitter, href: "https://www.instagram.com/gorakhpurrentalstudio/" },
+                  { icon: Youtube, href: "https://www.instagram.com/gorakhpurrentalstudio/  " },
                 ].map(({ icon: Icon, href }) => (
                   <a
                     key={href}
@@ -428,8 +428,8 @@ export default function Footer() {
                   <MapPin className="w-5 h-5 text-pink-500 mt-0.5 flex-shrink-0" />
                   <div className="text-center sm:text-left">
                     <p className="text-gray-600 text-sm">
-                      Main Store Address<br />
-                      Civil Lines, Gorakhpur<br />
+                      Daudpur<br />
+                       Gorakhpur<br />
                       Uttar Pradesh, India
                     </p>
                   </div>
@@ -437,12 +437,12 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="tel:+91XXXXXXXXXX"
+                  href="tel:+919721288883"
                   className="flex items-center justify-center sm:justify-start gap-3 text-gray-600 hover:text-pink-700 transition-colors duration-200"
                 >
                   <Phone className="w-5 h-5 text-pink-500" />
                   <div className="text-center sm:text-left">
-                    <p className="font-medium">+91 XXXXX XXXXX</p>
+                    <p className="font-medium">+91 97212 88883</p>
                     <p className="text-xs text-gray-500">Call for bookings</p>
                   </div>
                 </a>
@@ -483,16 +483,16 @@ export default function Footer() {
             </div>
             
             <div className="flex flex-wrap items-center gap-6 text-sm text-gray-600">
-              <Link to="/privacy" className="hover:text-pink-700 transition-colors">
+              <Link to="/" className="hover:text-pink-700 transition-colors">
                 Privacy Policy
               </Link>
-              <Link to="/terms" className="hover:text-pink-700 transition-colors">
+              <Link to="/" className="hover:text-pink-700 transition-colors">
                 Terms of Service
               </Link>
-              <Link to="/refund" className="hover:text-pink-700 transition-colors">
+              <Link to="/" className="hover:text-pink-700 transition-colors">
                 Refund Policy
               </Link>
-              <Link to="/faq" className="hover:text-pink-700 transition-colors">
+              <Link to="/" className="hover:text-pink-700 transition-colors">
                 FAQ
               </Link>
             </div>
