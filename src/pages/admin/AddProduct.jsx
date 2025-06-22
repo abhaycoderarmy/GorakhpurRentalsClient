@@ -593,7 +593,7 @@ const response = await api.post(
                     </div>
                     <input
                       type="file"
-                      accept="image/*"
+                      accept="image/*,video/*"
                       onChange={handleImagesChange}
                       multiple
                       className="hidden"
@@ -607,7 +607,7 @@ const response = await api.post(
                       <Upload className="w-5 h-5" />
                       Choose Images
                     </label>
-                    <p className="text-gray-500 mt-2">Upload multiple high-quality images</p>
+                    <p className="text-gray-500 mt-2">Upload multiple high-quality images and videos</p>
                     {images.length > 0 && (
                       <p className="text-green-600 mt-2 font-medium">{images.length} files selected</p>
                     )}
