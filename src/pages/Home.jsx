@@ -5,6 +5,7 @@ import OurRentalProcess from "./Home/OurRentalProcess";
 import RentForACause from "./Home/RentForACause";
 import Footer from "../components/Footer";
 import InstagramPost from "./Home/InstagramPost";
+import Reels from "./Home/Reels";
 
 export default function Homepage() {
   return (
@@ -17,6 +18,8 @@ export default function Homepage() {
       
       {/* Our Rental Process */}
       <OurRentalProcess />
+
+      <Reels />
       
       {/* Rent for a Cause */}
       <RentForACause />
