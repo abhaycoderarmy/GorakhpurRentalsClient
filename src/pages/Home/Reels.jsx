@@ -16,7 +16,11 @@ export default function ReelsShowcase() {
     "https://res.cloudinary.com/dpzagdlky/video/upload/v1751282262/s1sze6w2geedfzkeqmdp.mp4",
     "https://res.cloudinary.com/dpzagdlky/video/upload/v1751282256/chuedywjra7zrpmfhxve.mp4",
     "https://res.cloudinary.com/dpzagdlky/video/upload/v1751282254/thxgxw1l9tl5eqpj6egr.mp4",
-    "https://res.cloudinary.com/dpzagdlky/video/upload/v1751282257/tuty8yvzygegrrl5pjxo.mp4"
+    "https://res.cloudinary.com/dpzagdlky/video/upload/v1751282257/tuty8yvzygegrrl5pjxo.mp4",
+    "https://res.cloudinary.com/dpzagdlky/video/upload/v1751282263/nv8d0fn5qnpmuo6a0msb.mp4",
+    "https://res.cloudinary.com/dpzagdlky/video/upload/v1751282263/lho1ddy7eseru0on9mgd.mp4",
+    "https://res.cloudinary.com/dpzagdlky/video/upload/v1751282256/iqwbx1w3njf4wgfqnq9k.mp4",
+    "https://res.cloudinary.com/dpzagdlky/video/upload/v1750580661/GorakhpurRentals/qlvxxuzyt1tbtwqt1ktr.mp4"
   ];
 
   // Handle responsive videos per slide
@@ -178,7 +182,7 @@ export default function ReelsShowcase() {
               onClick={() => window.location.href = 'https://www.instagram.com/gorakhpurrentalstudio/?hl=en'}
               className="px-6 lg:px-8 py-2.5 lg:py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold rounded-full hover:from-pink-600 hover:to-rose-600 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-pink-500/25 text-sm lg:text-base"
             >
-              VIEW ALL REELS
+              VIEW ALL PRODUCTS
             </button>
           </div>
         </div>
