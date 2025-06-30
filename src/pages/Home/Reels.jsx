@@ -182,7 +182,7 @@ export default function ReelsShowcase() {
               onClick={() => window.location.href = 'https://www.instagram.com/gorakhpurrentalstudio/?hl=en'}
               className="px-6 lg:px-8 py-2.5 lg:py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold rounded-full hover:from-pink-600 hover:to-rose-600 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-pink-500/25 text-sm lg:text-base"
             >
-              VIEW ALL PRODUCTS
+              VIEW ALL REELS
             </button>
           </div>
         </div>
