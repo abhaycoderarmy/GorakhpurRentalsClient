@@ -4,7 +4,7 @@ import axios from "axios";
 import { useCart } from "../context/CartContext";
 import Footer from "../components/Footer";
 import Reviews from "../components/Review"; // Import the Reviews component
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -23,6 +23,7 @@ export default function ProductDetails() {
   const [showReviews, setShowReviews] = useState(false);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [slideInterval, setSlideInterval] = useState(null);
+  const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
 
   // New state for date booking
   const [startDate, setStartDate] = useState("");
@@ -30,8 +31,10 @@ export default function ProductDetails() {
   const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
   const [availabilityStatus, setAvailabilityStatus] = useState(null);
   const [dateError, setDateError] = useState("");
-  const [showToast, setShowToast] = useState(false);
+  // const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+
+  
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -197,12 +200,15 @@ export default function ProductDetails() {
       setSlideInterval(null);
     }
   }, [isAutoPlaying, product?.images?.length]);
-
+  const showToast = (message, type = 'success') => {
+  setToast({ show: true, message, type });
+  setTimeout(() => {
+    setToast({ show: false, message: '', type: 'success' });
+  }, 3000); // Hide after 3 seconds
+};
   const handleAddToCart = async () => {
     if (!startDate || !endDate) {
-      setToastMessage("Please select both start and end dates for rental");
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 3000);
+      showToast("Please select both start and end dates for rental", "error");
       return;
     }
 
@@ -236,11 +242,9 @@ export default function ProductDetails() {
       };
       const result = await addToCart(product._id, quantity, startDate, endDate);
       if (result.success) {
-        toast.success("Added to Cart Successfully");
+        showToast(`${product.name} added to cart successfully!`, 'success');
       } else {
-        setToastMessage(result.message);
-        setShowToast(true);
-        setTimeout(() => setShowToast(false), 3000);
+        showToast(result.message, 'error');
       }
     }
   };
@@ -355,12 +359,6 @@ export default function ProductDetails() {
   }
  return (
   <div className="min-h-screen bg-gradient-to-br from-pink-50 to-rose-100">
-    {/* Toast notification */}
-    {showToast && (
-      <div className="fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-xl z-50 font-medium">
-        {toastMessage}
-      </div>
-    )}
 
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       {/* Breadcrumb */}
@@ -856,7 +854,29 @@ export default function ProductDetails() {
         </div>
       )}
     </div>
-
+   {/* Toast Notification */}
+{toast.show && (
+  <div className="fixed top-4 right-4 z-50 animate-fade-in">
+    <div className={`px-6 py-4 rounded-2xl shadow-lg backdrop-blur-sm border ${
+      toast.type === 'success' 
+        ? 'bg-green-500/90 border-green-400 text-white' 
+        : 'bg-red-500/90 border-red-400 text-white'
+    }`}>
+      <div className="flex items-center gap-3">
+        {toast.type === 'success' ? (
+          <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+          </svg>
+        ) : (
+          <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        )}
+        <span className="font-medium">{toast.message}</span>
+      </div>
+    </div>
+  </div>
+)}
     <Footer />
   </div>
 );

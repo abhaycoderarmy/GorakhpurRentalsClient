@@ -26,6 +26,7 @@ import EditProduct from "./components/EditProduct";
 import AdminFooter from "./pages/admin/AdminFooter";
 import GiftCardManagement from "./pages/admin/GiftCardMangement";
 import AdminReviewManagement from "./pages/admin/ManageReviews";
+import ForgotPassword from "./pages/ForgotPassword";
 
 export default function App() {
   const location = useLocation();
@@ -52,6 +53,7 @@ export default function App() {
           <Route path="/orders" element={<Orders />} />
           <Route path="/order-confirmation/:orderId" element={<OrderConfirmation />} />
           <Route path="/contact" element={<ContactUs />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
 
           {/* Admin routes */}
           <Route
