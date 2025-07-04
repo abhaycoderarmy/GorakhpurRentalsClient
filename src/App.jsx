@@ -26,7 +26,7 @@ import EditProduct from "./components/EditProduct";
 import AdminFooter from "./pages/admin/AdminFooter";
 import GiftCardManagement from "./pages/admin/GiftCardMangement";
 import AdminReviewManagement from "./pages/admin/ManageReviews";
-import ForgotPassword from "./pages/ForgotPassword";
+import ForgotPassword from "./pages/ForgetPassword";
 
 export default function App() {
   const location = useLocation();
