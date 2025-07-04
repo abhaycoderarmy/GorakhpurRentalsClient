@@ -9,7 +9,7 @@ import { CartProvider } from "./context/CartContext";
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <GoogleOAuthProvider clientId="your-google-client-id">
+  <GoogleOAuthProvider clientId="195380073160-fjcvspgrolhmbij2r6dr7rgs2f2h1mu5.apps.googleusercontent.com">
     <BrowserRouter>
       <AuthProvider>
         <CartProvider>

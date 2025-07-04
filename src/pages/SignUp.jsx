@@ -3,8 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import { toast } from "react-toastify";
-import { Eye, EyeOff, User, Mail, Lock } from "lucide-react";
-import Footer from "../components/Footer"; // Adjust path as needed
+import { Eye, EyeOff, User, Mail, Lock, UserPlus, ArrowRight } from "lucide-react";
+import Footer from "../components/Footer";
 
 export default function Signup() {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
@@ -41,7 +41,7 @@ export default function Signup() {
     }
   };
 
-  const handleGoogleLogin = async (credentialResponse) => {
+  const handleGoogleSuccess = async (credentialResponse) => {
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/auth/google-login`,
@@ -51,19 +51,27 @@ export default function Signup() {
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
-      toast.success("Welcome! Login successful.", {
+      toast.success("Welcome! Google signup successful. Please Login Again", {
         position: "top-right",
         autoClose: 3000,
       });
 
-      navigate("/dashboard");
+      const isAdmin = res.data.user?.isAdmin || res.data.user?.role === "admin";
+      navigate(isAdmin ? "/admin/dashboard" : "/login");
     } catch (err) {
-      console.error("Google login failed", err);
-      toast.error("Google login failed. Please try again.", {
+      console.error("Google signup failed", err);
+      toast.error("Google signup failed. Please try again.", {
         position: "top-right",
         autoClose: 5000,
       });
     }
+  };
+
+  const handleGoogleError = () => {
+    toast.error("Google signup failed. Please try again.", {
+      position: "top-right",
+      autoClose: 5000,
+    });
   };
 
   return (
@@ -74,7 +82,7 @@ export default function Signup() {
           {/* Header */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mb-4">
-              <User className="w-8 h-8 text-white" />
+              <UserPlus className="w-8 h-8 text-white" />
             </div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Create Account</h1>
             <p className="text-gray-600">Join us and start your journey today</p>
@@ -104,7 +112,7 @@ export default function Signup() {
               {/* Email Input */}
               <div className="relative">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Email Addresses
+                  Email Address
                 </label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -161,7 +169,10 @@ export default function Signup() {
                     Creating Account...
                   </div>
                 ) : (
-                  "Create Account"
+                  <div className="flex items-center justify-center">
+                    Create Account
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </div>
                 )}
               </button>
             </form>
@@ -177,16 +188,17 @@ export default function Signup() {
             </div>
 
             {/* Google Login */}
-            <div className="flex justify-center">
-              <div className="transform hover:scale-105 transition-transform duration-200">
-                <GoogleLogin 
-                  onSuccess={handleGoogleLogin} 
-                  onError={() => toast.error("Google login failed. Please try again.")}
-                  theme="outline"
-                  size="large"
-                  width="100%"
-                />
-              </div>
+            <div className="w-full flex justify-center">
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={handleGoogleError}
+                useOneTap={false}
+                size="large"
+                theme="outline"
+                shape="rectangular"
+                width="384"
+                text="signup_with"
+              />
             </div>
 
             {/* Login Link */}
@@ -204,12 +216,35 @@ export default function Signup() {
           </div>
 
           {/* Terms */}
-          <p className="text-center text-xs text-gray-500 mt-6">
-            By creating an account, you agree to our{" "}
-            <a href="/terms" className="text-blue-600 hover:underline">Terms of Service</a>{" "}
-            and{" "}
-            <a href="/privacy" className="text-blue-600 hover:underline">Privacy Policy</a>
-          </p>
+          <div className="mt-6 text-center space-y-2">
+            <p className="text-xs text-gray-500">
+              By creating an account, you agree to our{" "}
+              <a href="/terms" className="text-blue-600 hover:underline">Terms of Service</a>{" "}
+              and{" "}
+              <a href="/privacy" className="text-blue-600 hover:underline">Privacy Policy</a>
+            </p>
+          </div>
+
+          {/* Quick Access Cards */}
+          <div className="mt-8 grid grid-cols-2 gap-4">
+            <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 border border-gray-200">
+              <h3 className="font-medium text-gray-900 mb-1">Quick Start</h3>
+              <p className="text-xs text-gray-600 mb-2">Get up and running fast</p>
+              <button className="text-xs text-blue-600 hover:text-blue-500 font-medium">
+                Learn More →
+              </button>
+            </div>
+            <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 border border-gray-200">
+              <h3 className="font-medium text-gray-900 mb-1">Need Help?</h3>
+              <p className="text-xs text-gray-600 mb-2">We're here to assist</p>
+              <button
+                onClick={() => navigate("/support")}
+                className="text-xs text-blue-600 hover:text-blue-500 font-medium"
+              >
+                Get Support →
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
