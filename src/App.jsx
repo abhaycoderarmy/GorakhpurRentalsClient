@@ -27,6 +27,8 @@ import AdminFooter from "./pages/admin/AdminFooter";
 import GiftCardManagement from "./pages/admin/GiftCardMangement";
 import AdminReviewManagement from "./pages/admin/ManageReviews";
 import ForgotPassword from "./pages/ForgetPassword";
+import ContactUserDashboard from "./pages/ContactUsUser";
+import AdminContactDashboard from "./pages/ContactUsAdmin";
 
 export default function App() {
   const location = useLocation();
@@ -54,6 +56,7 @@ export default function App() {
           <Route path="/order-confirmation/:orderId" element={<OrderConfirmation />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/contact-user-dashboard" element={<ContactUserDashboard />} />
 
           {/* Admin routes */}
           <Route
@@ -73,6 +76,7 @@ export default function App() {
           <Route path="/admin/newsletters" element={<NewsletterSend />} />
           <Route path="/admin/edit-product/:id" element={<EditProduct />} />
           <Route path="/admin/giftcardmanagement" element={<GiftCardManagement />}/>
+          <Route path="/admin/contact" element={<AdminContactDashboard />} />
         </Routes>
       </main>
 

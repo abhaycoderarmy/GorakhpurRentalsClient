@@ -191,12 +191,7 @@ export default function Navbar() {
                 >
                   PRODUCTS
                 </Link>
-                <Link
-                  to="/contact"
-                  className="px-6 py-2 text-sm font-medium text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md transition-all duration-200 uppercase tracking-wide"
-                >
-                  CONTACT US
-                </Link>
+                
                 <Link
                   to="/signup"
                   className="px-6 py-2 text-sm font-medium text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md transition-all duration-200 uppercase tracking-wide"
@@ -209,6 +204,7 @@ export default function Navbar() {
                 >
                   LOGIN
                 </Link>
+
                 <Link
                   to="/cart"
                   className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-400 to-yellow-500 text-white text-sm font-medium rounded-md hover:from-amber-500 hover:to-yellow-600 transition-all duration-200 shadow-md"
@@ -220,6 +216,12 @@ export default function Navbar() {
                       {cartCount}
                     </span>
                   )}
+                </Link>
+                <Link
+                  to="/contact"
+                  className="px-6 py-2 text-sm font-medium text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md transition-all duration-200 uppercase tracking-wide"
+                >
+                  CUSTOMER SUPPORT
                 </Link>
               </>
             ) : isAdmin ? (
@@ -296,11 +298,18 @@ export default function Navbar() {
                 >
                   MY ORDERS
                 </Link>
+                
                 <Link
                   to="/profile"
                   className="px-6 py-2 text-sm font-medium text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md transition-all duration-200 uppercase tracking-wide"
                 >
                   PROFILE
+                </Link>
+                <Link
+                  to="/contact-user-dashboard"
+                  className="px-6 py-2 text-sm font-medium text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md transition-all duration-200 uppercase tracking-wide"
+                >
+                  CUSTOMER SUPPORT
                 </Link>
                 <div >
                   {/* <UserCircle className="w-5 h-5 text-green-600" /> */}
@@ -320,7 +329,7 @@ export default function Navbar() {
 
             {/* Call Us Button */}
             <Link
-              to="tel:+919721288883"
+              to="tel:+919721288881"
               className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-amber-500 to-yellow-600 text-white text-sm font-bold rounded-md hover:from-amber-600 hover:to-yellow-700 transition-all duration-200 shadow-md ml-4"
             >
               <Phone size={16} />

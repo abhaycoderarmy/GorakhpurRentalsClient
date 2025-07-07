@@ -33,6 +33,7 @@ export default function AdminNavbar() {
     { to: "/admin/users", label: "MANAGE USERS", icon: Users },
     { to: "/admin/orders", label: "MANAGE ORDERS", icon: ShoppingBag },
     { to: "/admin/newsletters", label: "SEND NEWSLETTERS", icon: Mail },
+    { to: "/admin/contact", label: "CONTACT MESSAGES", icon: Mail },
   ];
 
   return (
