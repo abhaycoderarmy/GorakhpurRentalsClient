@@ -9,131 +9,26 @@ import {
   Menu,
   X,
   User,
-  Crown,
-  Users,
   Package,
-  ShoppingBag,
   Mail,
   Phone,
   FileText,
   UserCircle,
+  Headphones,
 } from "lucide-react";
-
 
 export default function Navbar() {
   const { user, logout } = useAuth();
-   const { items: cart } = useCart();
+  const { items: cart } = useCart();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Calculate cart count - total quantity of all items
   const cartCount = cart?.reduce((total, item) => total + (item.qty || 0), 0) || 0;
 
-  const isAdmin = user?.user?.role === "admin" || user?.user?.isAdmin;
-  const isAdminRoute = location.pathname.startsWith("/admin");
-  
-
-  if (isAdminRoute) {
-    return (
-      <nav className="w-full bg-gradient-to-r from-amber-50 via-white to-amber-50 shadow-lg border-b border-amber-200">
-        <div className="w-full max-w-none px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-amber-400 to-yellow-500 rounded-lg flex items-center justify-center shadow-md">
-                <Crown className="w-6 h-6 text-white" />
-              </div>
-              <span className="text-xl font-bold text-amber-800">
-                Admin Panel
-              </span>
-            </div>
-
-            <div className="hidden md:flex items-center space-x-1">
-              {[
-                { to: "/admin/users", label: "Users", icon: Users },
-                { to: "/admin/product", label: "Products", icon: Package },
-                { to: "/admin/orders", label: "Orders", icon: ShoppingBag },
-                { to: "/admin/newsletters", label: "Newsletter", icon: Mail },
-              ].map(({ to, label, icon: Icon }) => (
-                <Link
-                  key={to}
-                  to={to}
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md transition-all duration-200"
-                >
-                  <Icon size={16} />
-                  {label}
-                </Link>
-              ))}
-
-              <div className="w-px h-6 bg-amber-300 mx-3"></div>
-
-              <Link
-                to="/"
-                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md transition-all duration-200"
-              >
-                <Home size={16} />
-                Home
-              </Link>
-              <button
-                onClick={logout}
-                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-600 hover:text-red-800 hover:bg-red-50 rounded-md transition-all duration-200"
-              >
-                <LogOut size={16} />
-                Logout
-                
-              </button>
-            </div>
-
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md transition-all duration-200"
-            >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-
-          {/* Mobile Menu */}
-          {isMobileMenuOpen && (
-            <div className="md:hidden border-t border-amber-200 bg-white">
-              <div className="px-2 pt-2 pb-3 space-y-1">
-                {[
-                  { to: "/admin/users", label: "Users", icon: Users },
-                  { to: "/admin/product", label: "Products", icon: Package },
-                  { to: "/admin/orders", label: "Orders", icon: ShoppingBag },
-                  { to: "/admin/newsletters", label: "Newsletter", icon: Mail },
-                  { to: "/", label: "Home", icon: Home },
-                ].map(({ to, label, icon: Icon }) => (
-                  <Link
-                    key={to}
-                    to={to}
-                    className="flex items-center gap-3 px-3 py-2 text-base font-medium text-amber-700 hover:text-amber-900 hover:bg-amber-50 rounded-md transition-all duration-200"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <Icon size={18} />
-                    {label}
-                  </Link>
-                ))}
-                <button
-                  onClick={() => {
-                    logout();
-                    navigate("/login");
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="flex items-center gap-3 px-3 py-2 text-base font-medium text-red-600 hover:text-red-800 hover:bg-red-50 rounded-md transition-all duration-200 w-full text-left"
-                >
-                  <LogOut size={18} />
-                  Logout
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-      </nav>
-    );
-  }
-
-  // Main navbar for users
+  // Main navbar for all users (admin functionality completely removed)
   return (
-    <nav className="w-full bg-gradient-to-r from-rose-100 via-amber-50 to-rose-100 shadow-lg">
+    <nav className="w-full bg-gradient-to-r from-rose-100 via-amber-50 to-rose-100 shadow-lg sticky top-0 z-40">
       <div className="w-full max-w-none px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo with Cloudinary Image */}
@@ -219,54 +114,14 @@ export default function Navbar() {
                 </Link>
                 <Link
                   to="/contact"
-                  className="px-6 py-2 text-sm font-medium text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md transition-all duration-200 uppercase tracking-wide"
+                  className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-sm font-medium rounded-md hover:from-emerald-600 hover:to-teal-700 transition-all duration-200 shadow-md"
                 >
-                  CUSTOMER SUPPORT
+                  <Headphones size={16} />
+                  <span className="hidden xl:inline">CUSTOMER SUPPORT</span>
                 </Link>
-              </>
-            ) : isAdmin ? (
-              // Admin user menu
-              <>
-                <Link
-                  to="/"
-                  className="px-6 py-2 text-sm font-medium text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md transition-all duration-200 uppercase tracking-wide"
-                >
-                  HOME
-                </Link>
-                <Link
-                  to="/admin"
-                  className="px-6 py-2 text-sm font-medium text-purple-700 hover:text-purple-900 hover:bg-purple-100 rounded-md transition-all duration-200 uppercase tracking-wide"
-                >
-                  ADMIN PANEL
-                </Link>
-                <Link
-                  to="/cart"
-                  className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-400 to-yellow-500 text-white text-sm font-medium rounded-md hover:from-amber-500 hover:to-yellow-600 transition-all duration-200 shadow-md"
-                >
-                  <ShoppingCart size={16} />
-                  <span className="hidden xl:inline">CART</span>
-                  {cartCount > 0 && (
-                    <span className="bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center ml-1">
-                      {cartCount}
-                    </span>
-                  )}
-                </Link>
-                <div className="flex items-center gap-2 px-4 py-2 bg-green-100 rounded-md">
-                  <UserCircle className="w-5 h-5 text-green-600" />
-                  <span className="text-sm font-medium text-green-800">
-                    {user.user?.name}
-                  </span>
-                </div>
-                <button
-                  onClick={logout}
-                  className="px-4 py-2 text-sm font-medium text-red-600 hover:text-red-800 hover:bg-red-50 rounded-md transition-all duration-200"
-                >
-                  LOGOUT
-              
-                </button>
               </>
             ) : (
-              // Regular user menu
+              // Logged in user menu (admin functionality removed)
               <>
                 <Link
                   to="/"
@@ -307,12 +162,13 @@ export default function Navbar() {
                 </Link>
                 <Link
                   to="/contact-user-dashboard"
-                  className="px-6 py-2 text-sm font-medium text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md transition-all duration-200 uppercase tracking-wide"
+                  className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-sm font-medium rounded-md hover:from-emerald-600 hover:to-teal-700 transition-all duration-200 shadow-md"
                 >
-                  CUSTOMER SUPPORT
+                  <Headphones size={16} />
+                  <span className="hidden xl:inline">CUSTOMER SUPPORT</span>
                 </Link>
-                <div >
-                  {/* <UserCircle className="w-5 h-5 text-green-600" /> */}
+                <div className="flex items-center gap-2 px-4 py-2 bg-green-100 rounded-md">
+                  <UserCircle className="w-5 h-5 text-green-600" />
                   <span className="text-sm font-medium text-green-800">
                     {user.user?.name}
                   </span>
@@ -322,7 +178,6 @@ export default function Navbar() {
                   className="px-4 py-2 text-sm font-medium text-red-600 hover:text-red-800 hover:bg-red-50 rounded-md transition-all duration-200"
                 >
                   LOGOUT
-                 
                 </button>
               </>
             )}
@@ -346,9 +201,9 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu - Fixed to prevent scrolling */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden border-t border-amber-200 bg-white">
+          <div className="lg:hidden border-t border-amber-200 bg-white fixed inset-x-0 top-20 z-50 max-h-[calc(100vh-5rem)] overflow-y-auto shadow-xl">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {!user ? (
                 // Not logged in mobile menu
@@ -356,8 +211,8 @@ export default function Navbar() {
                   {[
                     { to: "/", label: "HOME", icon: Home },
                     { to: "/product", label: "PRODUCTS", icon: Package },
-                    { to: "/contact", label: "CONTACT US", icon: Mail },
-                    { to: "/signup", label: "SIGN IN", icon: UserCircle },
+                    { to: "/contact", label: "CONTACT US", icon: Headphones },
+                    { to: "/signup", label: "SIGN UP", icon: UserCircle },
                     { to: "/login", label: "LOGIN", icon: User },
                   ].map(({ to, label, icon: Icon }) => (
                     <Link
@@ -384,67 +239,23 @@ export default function Navbar() {
                     )}
                   </Link>
                 </>
-              ) : isAdmin ? (
-                // Admin mobile menu
-                <>
-                  <div className="px-3 py-2 bg-green-50 rounded-md mb-2">
-                    <span className="text-sm font-medium text-green-800">
-                      Welcome, {user.user?.name}
-                    </span>
-                  </div>
-                  {[
-                    { to: "/", label: "HOME", icon: Home },
-                    { to: "/admin", label: "ADMIN PANEL", icon: Crown },
-                  ].map(({ to, label, icon: Icon }) => (
-                    <Link
-                      key={to}
-                      to={to}
-                      className="flex items-center gap-3 px-3 py-2 text-base font-medium text-amber-700 hover:text-amber-900 hover:bg-amber-50 rounded-md transition-all duration-200"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      <Icon size={18} />
-                      {label}
-                    </Link>
-                  ))}
-                  <Link
-                    to="/cart"
-                    className="flex items-center gap-3 px-3 py-2 text-base font-medium text-amber-700 hover:text-amber-900 hover:bg-amber-50 rounded-md transition-all duration-200"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <ShoppingCart size={18} />
-                    CART
-                    {cartCount > 0 && (
-                      <span className="bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center ml-auto">
-                        {cartCount}
-                      </span>
-                    )}
-                  </Link>
-                  <button
-                    onClick={() => {
-                      logout();
-                      navigate("/login");
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className="flex items-center gap-3 px-3 py-2 text-base font-medium text-red-600 hover:text-red-800 hover:bg-red-50 rounded-md transition-all duration-200 w-full text-left"
-                  >
-                    <LogOut size={18} />
-                    LOGOUT
-
-                  </button>
-                </>
               ) : (
-                // Regular user mobile menu
+                // Logged in user mobile menu (admin functionality removed)
                 <>
                   <div className="px-3 py-2 bg-green-50 rounded-md mb-2">
-                    <span className="text-sm font-medium text-green-800">
-                      Welcome, {user.user?.name}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <UserCircle className="w-5 h-5 text-green-600" />
+                      <span className="text-sm font-medium text-green-800">
+                        Welcome, {user.user?.name}
+                      </span>
+                    </div>
                   </div>
                   {[
                     { to: "/", label: "HOME", icon: Home },
                     { to: "/product", label: "PRODUCTS", icon: Package },
                     { to: "/orders", label: "MY ORDERS", icon: FileText },
                     { to: "/profile", label: "PROFILE", icon: UserCircle },
+                    { to: "/contact-user-dashboard", label: "CUSTOMER SUPPORT", icon: Headphones },
                   ].map(({ to, label, icon: Icon }) => (
                     <Link
                       key={to}
@@ -472,7 +283,6 @@ export default function Navbar() {
                   <button
                     onClick={() => {
                       logout();
-                      navigate("/login");
                       setIsMobileMenuOpen(false);
                     }}
                     className="flex items-center gap-3 px-3 py-2 text-base font-medium text-red-600 hover:text-red-800 hover:bg-red-50 rounded-md transition-all duration-200 w-full text-left"
@@ -485,8 +295,8 @@ export default function Navbar() {
 
               {/* Mobile Call Us */}
               <Link
-                to="tel:+919721288883"
-                className="flex items-center gap-3 px-3 py-2 bg-gradient-to-r from-amber-400 to-yellow-500 text-white font-bold rounded-md mt-4"
+                to="tel:+919721288881"
+                className="flex items-center gap-3 px-3 py-2 bg-gradient-to-r from-amber-400 to-yellow-500 text-white font-bold rounded-md mt-4 mx-3"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 <Phone size={18} />
