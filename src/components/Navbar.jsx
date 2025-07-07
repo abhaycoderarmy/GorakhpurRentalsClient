@@ -26,48 +26,57 @@ export default function Navbar() {
   // Calculate cart count - total quantity of all items
   const cartCount = cart?.reduce((total, item) => total + (item.qty || 0), 0) || 0;
 
-  // Main navbar for all users (admin functionality completely removed)
+  // Logo component with animation (reusable for both desktop and mobile)
+  const AnimatedLogo = ({ className = "" }) => (
+    <Link to="/" className={`flex items-center gap-4 group ${className}`}>
+      {/* Cloudinary Logo with continuous mobile animation */}
+      <div className="relative transition-all duration-500 animate-pulse lg:animate-none group-hover:rotate-3 group-active:rotate-3 group-active:scale-105">
+        <div className="w-20 h-20 rounded-2xl overflow-hidden shadow-lg shadow-amber-200 lg:shadow-gray-200 transition-all duration-500 group-hover:shadow-2xl group-active:shadow-2xl">
+          <img
+            src="https://res.cloudinary.com/dpzagdlky/image/upload/v1750013431/hz34pwkz89ep5xwg73ue.png"
+            alt="Gorakhpur Rentals Logo"
+            className="w-full h-full object-contain transition-all duration-500"
+          />
+        </div>
+
+        {/* Animated Border Ring - Always pulsing on mobile */}
+        <div className="absolute inset-0 rounded-2xl border-2 border-amber-400 animate-pulse lg:border-transparent lg:group-hover:border-amber-400 lg:group-hover:animate-pulse transition-all duration-500"></div>
+
+        {/* Subtle Glow Effect - Always glowing on mobile */}
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-amber-400 to-yellow-500 opacity-10 lg:opacity-0 lg:group-hover:opacity-10 blur-sm transition-all duration-500 -z-10"></div>
+
+        {/* Floating Particles - Always animating on mobile */}
+        <div className="absolute -top-2 -right-2 w-3 h-3 bg-amber-400 rounded-full animate-bounce lg:opacity-0 lg:group-hover:opacity-100 lg:group-hover:animate-bounce transition-all duration-500"></div>
+        <div className="absolute -bottom-2 -left-2 w-2 h-2 bg-yellow-500 rounded-full animate-ping lg:opacity-0 lg:group-hover:opacity-100 lg:group-hover:animate-ping transition-all duration-700"></div>
+        <div className="absolute -top-1 -left-3 w-1.5 h-1.5 bg-amber-300 rounded-full animate-pulse lg:opacity-0 lg:group-hover:opacity-100 lg:group-hover:animate-pulse transition-all duration-600"></div>
+        
+        {/* Additional Mobile-only continuous animations */}
+        <div className="absolute -top-3 -right-1 w-2 h-2 bg-amber-500 rounded-full animate-ping lg:hidden" style={{animationDelay: '0.5s'}}></div>
+        <div className="absolute -bottom-3 -right-1 w-1.5 h-1.5 bg-yellow-400 rounded-full animate-bounce lg:hidden" style={{animationDelay: '1s'}}></div>
+        <div className="absolute top-1 -left-4 w-1 h-1 bg-amber-600 rounded-full animate-pulse lg:hidden" style={{animationDelay: '1.5s'}}></div>
+      </div>
+
+      {/* Animated Brand Text - Continuous subtle animation on mobile */}
+      <div className="flex flex-col transition-all duration-300 animate-pulse lg:animate-none group-hover:translate-x-2 group-active:translate-x-2">
+        <span className="text-2xl font-bold text-amber-800 leading-none tracking-wide transition-all duration-300 group-hover:text-amber-900 group-hover:scale-105 group-active:text-amber-900 group-active:scale-105">
+          GORAKHPUR
+        </span>
+        <span className="text-sm text-amber-600 font-semibold tracking-widest transition-all duration-300 group-hover:text-amber-700 group-hover:tracking-wider group-active:text-amber-700 group-active:tracking-wider">
+          RENTALS
+        </span>
+        <span className="text-xs text-amber-500 font-medium italic transition-all duration-300 group-hover:text-amber-600 group-hover:translate-x-1 group-active:text-amber-600 group-active:translate-x-1 animate-pulse lg:animate-none">
+          Premium Lehanga Rental
+        </span>
+      </div>
+    </Link>
+  );
+
   return (
     <nav className="w-full bg-gradient-to-r from-rose-100 via-amber-50 to-rose-100 shadow-lg sticky top-0 z-40">
       <div className="w-full max-w-none px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          {/* Logo with Cloudinary Image */}
-          <Link to="/" className="flex items-center gap-4 group">
-            {/* Cloudinary Logo with Hover Effects */}
-            <div className="relative transition-all duration-500 group-hover:rotate-3">
-              <div className="w-20 h-20 rounded-2xl overflow-hidden shadow-lg transition-all duration-500 group-hover:shadow-2xl">
-                <img
-                  src="https://res.cloudinary.com/dpzagdlky/image/upload/v1750013431/hz34pwkz89ep5xwg73ue.png"
-                  alt="Gorakhpur Rentals Logo"
-                  className="w-full h-full object-contain transition-all duration-500"
-                />
-              </div>
-
-              {/* Animated Border Ring */}
-              <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-amber-400 transition-all duration-500 group-hover:animate-pulse"></div>
-
-              {/* Subtle Glow Effect */}
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-amber-400 to-yellow-500 opacity-0 group-hover:opacity-10 blur-sm transition-all duration-500 -z-10"></div>
-
-              {/* Floating Particles */}
-              <div className="absolute -top-2 -right-2 w-3 h-3 bg-amber-400 rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-bounce transition-all duration-500"></div>
-              <div className="absolute -bottom-2 -left-2 w-2 h-2 bg-yellow-500 rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-ping transition-all duration-700"></div>
-              <div className="absolute -top-1 -left-3 w-1.5 h-1.5 bg-amber-300 rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-pulse transition-all duration-600"></div>
-            </div>
-
-            {/* Animated Brand Text */}
-            <div className="flex flex-col transition-all duration-300 group-hover:translate-x-2">
-              <span className="text-2xl font-bold text-amber-800 leading-none tracking-wide transition-all duration-300 group-hover:text-amber-900 group-hover:scale-105">
-                GORAKHPUR
-              </span>
-              <span className="text-sm text-amber-600 font-semibold tracking-widest transition-all duration-300 group-hover:text-amber-700 group-hover:tracking-wider">
-                RENTALS
-              </span>
-              <span className="text-xs text-amber-500 font-medium italic transition-all duration-300 group-hover:text-amber-600 group-hover:translate-x-1">
-                Premium Lehanga Rental
-              </span>
-            </div>
-          </Link>
+          {/* Logo - Now using AnimatedLogo component */}
+          <AnimatedLogo />
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-1">
@@ -211,9 +220,9 @@ export default function Navbar() {
                   {[
                     { to: "/", label: "HOME", icon: Home },
                     { to: "/product", label: "PRODUCTS", icon: Package },
-                    { to: "/contact", label: "CONTACT US", icon: Headphones },
                     { to: "/signup", label: "SIGN UP", icon: UserCircle },
                     { to: "/login", label: "LOGIN", icon: User },
+                    { to: "/contact", label: "CUSTOMER SUPPORT", icon: Headphones },
                   ].map(({ to, label, icon: Icon }) => (
                     <Link
                       key={to}
