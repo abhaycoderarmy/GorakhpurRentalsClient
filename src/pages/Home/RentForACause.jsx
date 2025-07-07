@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function RentForACause() {
@@ -6,34 +6,64 @@ export default function RentForACause() {
   const [loading, setLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState({});
   const navigate = useNavigate();
+  const intervalRef = useRef(null);
+  const isMountedRef = useRef(true);
+
   const handleNavigation = () => {
     navigate("/product");
   };
 
   useEffect(() => {
+    isMountedRef.current = true;
     setLoading(true);
+    
     // Fetch all products for the "Rent for a Cause" section
     fetch(`${import.meta.env.VITE_BACKEND_URL}/products?cause=true`)
       .then(res => res.json())
       .then(data => {
-        setProducts(data.products);
-        //made changes here changed 
-        // Initialize image indices for each product
+        if (!isMountedRef.current) return;
+        
+        setProducts(data.products || []);
+        
+        // Initialize image indices for each product - Fixed the bug here
         const initialIndices = {};
-        data.forEach(product => {
+        (data.products || []).forEach(product => {
           initialIndices[product._id] = 0;
         });
         setCurrentImageIndex(initialIndices);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch(() => {
+        if (isMountedRef.current) {
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      isMountedRef.current = false;
+    };
   }, []);
 
-  // Slideshow effect - change image every 5 seconds
+  // Slideshow effect - change image every 4 seconds
   useEffect(() => {
+    // Clear any existing interval
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
     if (products.length === 0) return;
 
-    const interval = setInterval(() => {
+    // Check if any product has multiple images
+    const hasMultipleImages = products.some(product => {
+      const images = product.images || [product.image];
+      return images.length > 1;
+    });
+
+    if (!hasMultipleImages) return;
+
+    intervalRef.current = setInterval(() => {
+      if (!isMountedRef.current) return;
+      
       setCurrentImageIndex(prev => {
         const newIndices = { ...prev };
         products.forEach(product => {
@@ -44,10 +74,24 @@ export default function RentForACause() {
         });
         return newIndices;
       });
-    }, 4000); // 4 seconds
+    }, 4000);
 
-    return () => clearInterval(interval);
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
   }, [products]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+      isMountedRef.current = false;
+    };
+  }, []);
 
   const handleProductClick = (productId) => {
     // Navigate to product details page
@@ -92,7 +136,7 @@ export default function RentForACause() {
               <div 
                 key={product._id} 
                 onClick={() => handleProductClick(product._id)}
-                className={`group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer ${
+                className={`group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 cursor-pointer ${
                   index % 4 === 0 ? 'bg-gradient-to-br from-blue-100 to-blue-50' :
                   index % 4 === 1 ? 'bg-gradient-to-br from-purple-100 to-purple-50' :
                   index % 4 === 2 ? 'bg-gradient-to-br from-orange-100 to-orange-50' :
@@ -104,7 +148,11 @@ export default function RentForACause() {
                   <img 
                     src={currentImg} 
                     alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    loading="lazy"
+                    onError={(e) => {
+                      e.target.src = '/api/placeholder/300/400';
+                    }}
                   />
                   
                   {/* Image Indicators */}
@@ -143,9 +191,9 @@ export default function RentForACause() {
                         e.stopPropagation();
                         // Add to cart logic
                       }}
-                      className="p-2 rounded-full border border-gray-300 hover:border-gray-400 transition-colors"
+                      className="p-2 rounded-full border border-gray-300 hover:border-gray-500 hover:bg-gray-50 transition-all duration-200 touch-manipulation"
                     >
-                      <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5 text-gray-600 hover:text-gray-800 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                       </svg>
                     </button>
@@ -155,7 +203,7 @@ export default function RentForACause() {
                         e.stopPropagation();
                         handleProductClick(product._id);
                       }}
-                      className="flex-1 ml-3 bg-gray-800 text-white py-2 px-4 rounded-full hover:bg-gray-700 transition-colors text-sm font-medium"
+                      className="flex-1 ml-3 bg-gray-800 text-white py-2 px-4 rounded-full hover:bg-gray-900 hover:shadow-lg transform hover:scale-105 transition-all duration-200 text-sm font-medium touch-manipulation"
                     >
                       Rent Now
                     </button>
@@ -165,9 +213,9 @@ export default function RentForACause() {
                         e.stopPropagation();
                         // More options logic
                       }}
-                      className="p-2 ml-2 rounded-full border border-gray-300 hover:border-gray-400 transition-colors"
+                      className="p-2 ml-2 rounded-full border border-gray-300 hover:border-gray-500 hover:bg-gray-50 transition-all duration-200 touch-manipulation"
                     >
-                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 text-gray-600 hover:text-gray-800 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
                       </svg>
                     </button>
@@ -187,9 +235,9 @@ export default function RentForACause() {
                     e.stopPropagation();
                     // Wishlist toggle logic
                   }}
-                  className="absolute top-4 right-4 p-2 rounded-full bg-white/80 hover:bg-white transition-colors"
+                  className="absolute top-4 right-4 p-2 rounded-full bg-white/80 hover:bg-white hover:shadow-lg transform hover:scale-110 transition-all duration-200 touch-manipulation"
                 >
-                  <svg className="w-5 h-5 text-gray-600 hover:text-red-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-gray-600 hover:text-red-500 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                   </svg>
                 </button>
@@ -211,8 +259,9 @@ export default function RentForACause() {
         {products.length > 4 && (
           <div className="text-center mt-12">
             <button 
-            onClick={handleNavigation}
-            className="bg-gray-800 text-white px-8 py-3 rounded-full hover:bg-gray-700 transition-colors font-medium">
+              onClick={handleNavigation}
+              className="bg-gray-800 text-white px-8 py-3 rounded-full hover:bg-gray-900 hover:shadow-lg transform hover:scale-105 transition-all duration-200 font-medium touch-manipulation"
+            >
               View All Cause Rentals
             </button>
           </div>
