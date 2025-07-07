@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { 
   MessageCircle, 
   Plus, 
@@ -35,9 +34,11 @@ const ContactUserDashboard = () => {
   const [profileLoading, setProfileLoading] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
-  const API_BASE_URL = import.meta.env.VITE_BACKEND_URL ;
+  const [lastMessageId, setLastMessageId] = useState(null);
+  const [messageDetailsLoading, setMessageDetailsLoading] = useState(false);
+  const API_BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
-  // Simplified new message form state (only subject and message)
+  // Simplified new message form state
   const [newMessageData, setNewMessageData] = useState({
     subject: "",
     message: ""
@@ -45,7 +46,7 @@ const ContactUserDashboard = () => {
   const [submittingNewMessage, setSubmittingNewMessage] = useState(false);
 
   // Fetch user profile
-  const fetchUserProfile = async () => {
+  const fetchUserProfile = useCallback(async () => {
     try {
       setProfileLoading(true);
       const token = localStorage.getItem("token");
@@ -64,9 +65,37 @@ const ContactUserDashboard = () => {
     } finally {
       setProfileLoading(false);
     }
-  };
+  }, [API_BASE_URL]);
 
-  const fetchMessages = async (page = 1) => {
+  // Fetch message details with proper error handling and loading state
+  const fetchMessageDetails = useCallback(async (messageId) => {
+    if (!messageId) return;
+    
+    try {
+      setMessageDetailsLoading(true);
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${API_BASE_URL}/contact/${messageId}`, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setSelectedMessage(data);
+        setSidebarOpen(false);
+      } else {
+        console.error("Failed to fetch message details:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching message details:", error);
+    } finally {
+      setMessageDetailsLoading(false);
+    }
+  }, [API_BASE_URL]);
+
+  // Fetch messages with improved state management
+  const fetchMessages = useCallback(async (page = 1, selectFirst = false) => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
@@ -85,36 +114,32 @@ const ContactUserDashboard = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setMessages(data.messages);
-        setTotalPages(data.totalPages);
-        setCurrentPage(data.currentPage);
+        setMessages(data.messages || []);
+        setTotalPages(data.totalPages || 1);
+        setCurrentPage(data.currentPage || 1);
+        
+        // Auto-select first message if requested
+        if (selectFirst && data.messages?.length > 0) {
+          const firstMessage = data.messages[0];
+          setLastMessageId(firstMessage._id);
+          await fetchMessageDetails(firstMessage._id);
+        }
+        // Auto-select new message if it exists
+        else if (lastMessageId && data.messages?.length > 0) {
+          const newMessage = data.messages.find(msg => msg._id === lastMessageId);
+          if (newMessage && (!selectedMessage || selectedMessage._id !== lastMessageId)) {
+            await fetchMessageDetails(lastMessageId);
+          }
+        }
       }
     } catch (error) {
       console.error("Error fetching messages:", error);
     } finally {
       setLoading(false);
     }
-  };
+  }, [API_BASE_URL, statusFilter, searchTerm, lastMessageId, selectedMessage, fetchMessageDetails]);
 
-  const fetchMessageDetails = async (messageId) => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await fetch(`${API_BASE_URL}/contact/${messageId}`, {
-        headers: {
-          "Authorization": `Bearer ${token}`
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setSelectedMessage(data);
-        setSidebarOpen(false); // Close sidebar on mobile after selection
-      }
-    } catch (error) {
-      console.error("Error fetching message details:", error);
-    }
-  };
-
+  // Handle sending response with proper state updates
   const handleSendResponse = async () => {
     if (!newResponse.trim() || !selectedMessage) return;
 
@@ -132,9 +157,24 @@ const ContactUserDashboard = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setSelectedMessage(data.contactMessage);
+        
+        // Update the selected message with the new response
+        if (data.contactMessage) {
+          setSelectedMessage(data.contactMessage);
+        }
+        
+        // Clear the response input
         setNewResponse("");
-        fetchMessages(currentPage); // Refresh the list
+        
+        // Refresh messages list to update status/counts
+        await fetchMessages(currentPage);
+        
+        // Force refresh the message details to ensure we have the latest data
+        if (selectedMessage?._id) {
+          await fetchMessageDetails(selectedMessage._id);
+        }
+      } else {
+        console.error("Failed to send response:", response.statusText);
       }
     } catch (error) {
       console.error("Error sending response:", error);
@@ -143,17 +183,17 @@ const ContactUserDashboard = () => {
     }
   };
 
+  // Handle new message submission
   const handleNewMessageSubmit = async () => {
-    if (!userProfile) return;
+    if (!userProfile || !newMessageData.subject || !newMessageData.message) return;
 
     try {
       setSubmittingNewMessage(true);
       const token = localStorage.getItem("token");
       
-      // Use user profile data automatically
       const messagePayload = {
-        firstName: userProfile.name.split(' ')[0] || userProfile.name,
-        lastName: userProfile.name.split(' ').slice(1).join(' ') || 'User',
+        firstName: userProfile.name?.split(' ')[0] || userProfile.name || 'User',
+        lastName: userProfile.name?.split(' ').slice(1).join(' ') || '',
         email: userProfile.email,
         phone: userProfile.contactNumber || '',
         subject: newMessageData.subject,
@@ -170,12 +210,21 @@ const ContactUserDashboard = () => {
       });
 
       if (response.ok) {
+        const data = await response.json();
         setShowNewMessageForm(false);
         setNewMessageData({
           subject: "",
           message: ""
         });
-        fetchMessages(1); // Refresh and go to first page
+        
+        // Store the new message ID for auto-selection
+        if (data.contactMessage) {
+          setLastMessageId(data.contactMessage._id);
+        }
+        
+        // Refresh messages and auto-select the new message
+        await fetchMessages(1, true);
+        setCurrentPage(1);
       }
     } catch (error) {
       console.error("Error creating message:", error);
@@ -184,10 +233,44 @@ const ContactUserDashboard = () => {
     }
   };
 
+  // Auto-refresh messages with better interval management
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      if (!loading && !sendingResponse && !submittingNewMessage && !messageDetailsLoading) {
+        await fetchMessages(currentPage);
+        
+        // Also refresh the selected message details to get latest responses
+        if (selectedMessage?._id) {
+          await fetchMessageDetails(selectedMessage._id);
+        }
+      }
+    }, 30000); // 30 seconds - increased from 10 seconds to avoid too frequent calls
+
+    return () => clearInterval(interval);
+  }, [currentPage, loading, sendingResponse, submittingNewMessage, messageDetailsLoading, selectedMessage, fetchMessages, fetchMessageDetails]);
+
+  // Initial data fetching
   useEffect(() => {
     fetchUserProfile();
     fetchMessages(currentPage);
-  }, [currentPage, statusFilter, searchTerm]);
+  }, [fetchUserProfile, fetchMessages, currentPage]);
+
+  // Handle search and filter changes
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      fetchMessages(1);
+      setCurrentPage(1);
+    }, 500); // Debounce search/filter changes
+
+    return () => clearTimeout(timeoutId);
+  }, [statusFilter, searchTerm, fetchMessages]);
+
+  // Handle page changes
+  useEffect(() => {
+    if (currentPage > 1) {
+      fetchMessages(currentPage);
+    }
+  }, [currentPage, fetchMessages]);
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -514,7 +597,7 @@ const ContactUserDashboard = () => {
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-2">
                               <span className="font-medium text-gray-800 text-sm sm:text-base">
-                                {response.isAdmin ? 'Support Team' : getUserDisplayName()}
+                                {response.isAdmin ? 'GorakhpurRentals Support' : getUserDisplayName()}
                               </span>
                               <span className="text-xs sm:text-sm text-gray-500">
                                 {formatDate(response.sentAt)}

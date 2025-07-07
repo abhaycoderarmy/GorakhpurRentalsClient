@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { 
   MessageCircle, 
   Send, 
@@ -40,8 +40,13 @@ const AdminContactDashboard = () => {
   const [sendingResponse, setSendingResponse] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [editingMessage, setEditingMessage] = useState(null);
-  const API_BASE_URL = import.meta.env.VITE_BACKEND_URL ;
-  const fetchMessages = async (page = 1) => {
+  const [lastUpdate, setLastUpdate] = useState(Date.now());
+  
+  // Mock API_BASE_URL for demo - replace with your actual URL
+  const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
+  // Memoized fetch function to prevent unnecessary re-renders
+  const fetchMessages = useCallback(async (page = 1) => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
@@ -53,6 +58,7 @@ const AdminContactDashboard = () => {
         ...(searchTerm && { search: searchTerm })
       });
 
+     
       const response = await fetch(`${API_BASE_URL}/contact?${queryParams}`, {
         headers: {
           "Authorization": `Bearer ${token}`
@@ -66,6 +72,7 @@ const AdminContactDashboard = () => {
         setCurrentPage(data.currentPage);
         setTotal(data.total);
         setStatusCounts(data.statusCounts || []);
+        setLastUpdate(Date.now());
       } else {
         console.error("Failed to fetch messages");
       }
@@ -74,7 +81,7 @@ const AdminContactDashboard = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [statusFilter, priorityFilter, searchTerm, API_BASE_URL]);
 
   const fetchMessageDetails = async (messageId) => {
     try {
@@ -88,6 +95,13 @@ const AdminContactDashboard = () => {
       if (response.ok) {
         const data = await response.json();
         setSelectedMessage(data);
+        
+        // Update the message in the messages list as well
+        setMessages(prevMessages => 
+          prevMessages.map(msg => 
+            msg._id === messageId ? { ...msg, ...data } : msg
+          )
+        );
       } else {
         console.error("Failed to fetch message details");
       }
@@ -113,9 +127,25 @@ const AdminContactDashboard = () => {
 
       if (response.ok) {
         const data = await response.json();
+        
+        // Update selected message immediately
         setSelectedMessage(data.contactMessage);
         setNewResponse("");
-        fetchMessages(currentPage);
+        
+        // Update the message in the messages list
+        setMessages(prevMessages => 
+          prevMessages.map(msg => 
+            msg._id === selectedMessage._id 
+              ? { ...msg, status: data.contactMessage.status, responses: data.contactMessage.responses }
+              : msg
+          )
+        );
+        
+        // Refresh the entire list to update counts and any other changes
+        await fetchMessages(currentPage);
+        
+        // Show success feedback
+        console.log("Response sent successfully");
       } else {
         console.error("Failed to send response");
       }
@@ -140,10 +170,25 @@ const AdminContactDashboard = () => {
 
       if (response.ok) {
         const data = await response.json();
+        
+        // Update selected message
         setSelectedMessage(data.contactMessage);
-        fetchMessages(currentPage);
+        
+        // Update the message in the messages list immediately
+        setMessages(prevMessages => 
+          prevMessages.map(msg => 
+            msg._id === messageId ? { ...msg, ...data.contactMessage } : msg
+          )
+        );
+        
+        // Close modal
         setShowEditModal(false);
         setEditingMessage(null);
+        
+        // Refresh the entire list to update counts
+        await fetchMessages(currentPage);
+        
+        console.log("Message updated successfully");
       } else {
         console.error("Failed to update message");
       }
@@ -165,8 +210,18 @@ const AdminContactDashboard = () => {
       });
 
       if (response.ok) {
-        setSelectedMessage(null);
-        fetchMessages(currentPage);
+        // Remove from messages list immediately
+        setMessages(prevMessages => prevMessages.filter(msg => msg._id !== messageId));
+        
+        // Clear selected message if it was the deleted one
+        if (selectedMessage?._id === messageId) {
+          setSelectedMessage(null);
+        }
+        
+        // Refresh to update counts and pagination
+        await fetchMessages(currentPage);
+        
+        console.log("Message deleted successfully");
       } else {
         console.error("Failed to delete message");
       }
@@ -175,9 +230,32 @@ const AdminContactDashboard = () => {
     }
   };
 
+  // Auto-refresh every 30 seconds to keep data fresh
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchMessages(currentPage);
+    }, 30000);
+
+    return () => clearInterval(interval);
+  }, [fetchMessages, currentPage]);
+
+  // Fetch messages when filters change
   useEffect(() => {
     fetchMessages(currentPage);
-  }, [currentPage, statusFilter, priorityFilter, searchTerm]);
+  }, [fetchMessages, currentPage]);
+
+  // Debounced search to avoid too many API calls
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (currentPage === 1) {
+        fetchMessages(1);
+      } else {
+        setCurrentPage(1);
+      }
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchTerm]);
 
   const getStatusColor = (status) => {
     switch (status) {

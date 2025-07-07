@@ -274,8 +274,8 @@ const response = await api.post(
           <p className="text-gray-600">Create a stunning product listing for your collection</p>
         </div>
 
-        {/* Debug Button - Remove this in production */}
-        <div className="mb-4 text-center">
+        
+        {/* <div className="mb-4 text-center">
           <button 
             type="button" 
             onClick={() => {
@@ -291,7 +291,7 @@ const response = await api.post(
           >
             Debug State (Remove in Production)
           </button>
-        </div>
+        </div> */}
 
         {/* Form Container */}
         <div className="bg-white/80 backdrop-blur-sm shadow-2xl rounded-3xl border border-white/20 overflow-hidden">
