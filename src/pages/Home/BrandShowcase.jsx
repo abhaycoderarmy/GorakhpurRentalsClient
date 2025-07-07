@@ -148,7 +148,9 @@ export default function BrandShowcase() {
               Every outfit goes through rigorous screening for the best craftsmanship.
             </p>
             
-            <button className="px-6 py-2 bg-amber-500 text-white font-semibold rounded-lg hover:bg-amber-600 transition-all duration-300">
+            <button 
+             onClick={handleNavigation}
+            className="px-6 py-2 bg-amber-500 text-white font-semibold rounded-lg hover:bg-amber-600 transition-all duration-300">
               BUY NOW
             </button>
           </div>
