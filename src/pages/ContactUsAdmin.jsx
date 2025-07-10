@@ -57,20 +57,20 @@ const AdminContactDashboard = () => {
   // Mock API_BASE_URL for demo - replace with your actual URL
   const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
   const handleNotification = useCallback((data) => {
-  const notification = {
-    id: Date.now() + Math.random(),
-    type: data.type,
-    title: data.title,
-    message: data.message,
-    contactId: data.contactId,
-    timestamp: new Date(),
-    read: false
-  };
+    const notification = {
+      id: Date.now() + Math.random(),
+      type: data.type,
+      title: data.title,
+      message: data.message,
+      contactId: data.contactId,
+      timestamp: new Date(),
+      read: false,
+    };
 
-  // You can add this to your existing notifications state or create a separate one
-  // This is just for the dashboard-specific notifications
-  console.log("New notification:", notification);
-}, []);
+    // You can add this to your existing notifications state or create a separate one
+    // This is just for the dashboard-specific notifications
+    // console.log("New notification:", notification);
+  }, []);
 
   // Memoized fetch function to prevent unnecessary re-renders
   const fetchMessages = useCallback(
@@ -115,14 +115,14 @@ const AdminContactDashboard = () => {
   // Socket setup - Fixed to prevent multiple joins/leaves
   useEffect(() => {
     if (isConnected && socketService && socketService.socket) {
-      console.log("Setting up socket listeners");
+      // console.log("Setting up socket listeners");
 
       // Join admin room for global notifications
       socketService.joinAdminRoom();
 
       // Listen for new contact messages
       const handleNewContactMessage = (data) => {
-        console.log("New contact message received:", data);
+        // console.log("New contact message received:", data);
         setMessages((prev) => [data, ...prev]);
         setTotal((prev) => prev + 1);
         setStatusCounts((prev) => {
@@ -155,7 +155,7 @@ const AdminContactDashboard = () => {
 
       // Listen for message status updates
       const handleMessageStatusUpdate = (data) => {
-        console.log("Message status updated:", data);
+        // console.log("Message status updated:", data);
         setMessages((prev) =>
           prev.map((msg) =>
             msg._id === data.messageId
@@ -173,37 +173,60 @@ const AdminContactDashboard = () => {
         }
       };
 
-      // Listen for new responses from users
+      // Fixed handleUserResponse function
       const handleUserResponse = (data) => {
-        console.log("User response received:", data);
+        // console.log("User response received:", data);
 
+        // Create a properly structured response object
         const newResponse = {
           message: data.message,
           isAdmin: false,
           sentAt: new Date().toISOString(),
-          sentBy: data.sentBy || { name: "User" },
+          sentBy: {
+            name: data.userName || "User",
+            _id: data.userId,
+            // Include profile photo if available
+            ...(data.userProfilePhoto && {
+              profilePhoto: data.userProfilePhoto,
+            }),
+          },
         };
 
-        setMessages((prev) =>
-          prev.map((msg) =>
-            msg._id === data.contactId
-              ? {
-                  ...msg,
-                  responses: [...(msg.responses || []), newResponse],
-                  status: "in-progress",
-                  hasUnreadResponse: true,
-                }
-              : msg
-          )
-        );
+        // console.log("Created new response object:", newResponse);
 
+        // Update messages list
+        setMessages((prev) => {
+          const updated = prev.map((msg) => {
+            if (msg._id === data.contactId) {
+              const updatedMessage = {
+                ...msg,
+                responses: [...(msg.responses || []), newResponse],
+                status: "in-progress",
+                hasUnreadResponse: selectedMessage?._id !== data.contactId,
+                updatedAt: new Date().toISOString(),
+              };
+              // console.log("Updated message in list:", updatedMessage);
+              return updatedMessage;
+            }
+            return msg;
+          });
+          // console.log("Updated messages list:", updated);
+          return updated;
+        });
+
+        // Update selected message if it matches the contactId
         if (selectedMessage?._id === data.contactId) {
-          setSelectedMessage((prev) => ({
-            ...prev,
-            responses: [...(prev.responses || []), newResponse],
-            status: "in-progress",
-            hasUnreadResponse: false,
-          }));
+          setSelectedMessage((prev) => {
+            const updatedSelected = {
+              ...prev,
+              responses: [...(prev.responses || []), newResponse],
+              status: "in-progress",
+              hasUnreadResponse: false,
+              updatedAt: new Date().toISOString(),
+            };
+            // console.log("Updated selected message:", updatedSelected);
+            return updatedSelected;
+          });
         }
 
         // Add notification for user response
@@ -219,7 +242,7 @@ const AdminContactDashboard = () => {
 
       // Listen for admin responses (real-time update when admin sends response)
       const handleAdminResponse = (data) => {
-        console.log("Admin response received:", data);
+        // console.log("Admin response received:", data);
         setMessages((prev) =>
           prev.map((msg) =>
             msg._id === data.contactId
@@ -242,7 +265,7 @@ const AdminContactDashboard = () => {
       };
 
       const handleUserTyping = (data) => {
-        console.log("User typing:", data);
+        // console.log("User typing:", data);
         setTypingContactId(data.contactId);
 
         // Clear any existing timeout for this contact
@@ -267,7 +290,7 @@ const AdminContactDashboard = () => {
       };
 
       const handleUserStoppedTyping = (data) => {
-        console.log("User stopped typing:", data);
+        // console.log("User stopped typing:", data);
 
         // Clear the timeout for this contact
         if (typingTimeouts[data.contactId]) {
@@ -287,7 +310,7 @@ const AdminContactDashboard = () => {
 
       // Listen for message deletions
       const handleMessageDeleted = (data) => {
-        console.log("Message deleted:", data);
+        // console.log("Message deleted:", data);
         setMessages((prev) => prev.filter((msg) => msg._id !== data.messageId));
         if (selectedMessage?._id === data.messageId) {
           setSelectedMessage(null);
@@ -362,41 +385,46 @@ const AdminContactDashboard = () => {
   //     console.error("Error fetching message details:", error);
   //   }
   // };
-  
-const fetchMessageDetails = async (messageId) => {
-  // Add validation for messageId
-  if (!messageId || messageId === 'undefined' || messageId === 'null') {
-    console.error('Invalid messageId provided to fetchMessageDetails:', messageId);
-    return;
-  }
 
-  try {
-    const token = localStorage.getItem("token");
-    const response = await fetch(`${API_BASE_URL}/contact/${messageId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      setSelectedMessage(data);
-
-      // Update the message in the messages list and mark as read
-      setMessages((prevMessages) =>
-        prevMessages.map((msg) =>
-          msg._id === messageId
-            ? { ...msg, ...data, hasUnreadResponse: false }
-            : msg
-        )
+  const fetchMessageDetails = async (messageId) => {
+    // Add validation for messageId
+    if (!messageId || messageId === "undefined" || messageId === "null") {
+      console.error(
+        "Invalid messageId provided to fetchMessageDetails:",
+        messageId
       );
-    } else {
-      console.error(`Failed to fetch message details. Status: ${response.status}`);
+      return;
     }
-  } catch (error) {
-    console.error("Error fetching message details:", error);
-  }
-}
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${API_BASE_URL}/contact/${messageId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setSelectedMessage(data);
+
+        // Update the message in the messages list and mark as read
+        setMessages((prevMessages) =>
+          prevMessages.map((msg) =>
+            msg._id === messageId
+              ? { ...msg, ...data, hasUnreadResponse: false }
+              : msg
+          )
+        );
+      } else {
+        console.error(
+          `Failed to fetch message details. Status: ${response.status}`
+        );
+      }
+    } catch (error) {
+      console.error("Error fetching message details:", error);
+    }
+  };
 
   const handleSendResponse = async () => {
     if (!newResponse.trim() || !selectedMessage) return;
@@ -459,7 +487,7 @@ const fetchMessageDetails = async (messageId) => {
           });
         }
 
-        console.log("Response sent successfully");
+        // console.log("Response sent successfully");
       } else {
         console.error("Failed to send response");
       }
@@ -512,12 +540,12 @@ const fetchMessageDetails = async (messageId) => {
         // Refresh the entire list to update counts
         await fetchMessages(currentPage);
 
-        console.log("Message updated successfully");
+        // console.log("Message updated successfully");
       } else {
-        console.error("Failed to update message");
+        // console.error("Failed to update message");
       }
     } catch (error) {
-      console.error("Error updating message:", error);
+      // console.error("Error updating message:", error);
     }
   };
 
@@ -554,22 +582,22 @@ const fetchMessageDetails = async (messageId) => {
         // Refresh to update counts and pagination
         await fetchMessages(currentPage);
 
-        console.log("Message deleted successfully");
+        // console.log("Message deleted successfully");
       } else {
-        console.error("Failed to delete message");
+        // console.error("Failed to delete message");
       }
     } catch (error) {
-      console.error("Error deleting message:", error);
+      // console.error("Error deleting message:", error);
     }
   };
   useEffect(() => {
-  return () => {
-    // Clear all typing timeouts on unmount
-    Object.values(typingTimeouts).forEach(timeoutId => {
-      clearTimeout(timeoutId);
-    });
-  };
-}, [typingTimeouts]);
+    return () => {
+      // Clear all typing timeouts on unmount
+      Object.values(typingTimeouts).forEach((timeoutId) => {
+        clearTimeout(timeoutId);
+      });
+    };
+  }, [typingTimeouts]);
   // Reduced auto-refresh frequency since we have real-time updates
   useEffect(() => {
     const interval = setInterval(() => {
@@ -1104,60 +1132,83 @@ const fetchMessageDetails = async (messageId) => {
                 )}
 
                 {/* Responses */}
-                <div className="p-6 max-h-96 overflow-y-auto">
-                  <div className="flex items-center gap-2 mb-4">
-                    <MessageSquare className="w-5 h-5 text-pink-500" />
-                    <h3 className="font-semibold text-gray-800">
-                      Conversation
-                    </h3>
-                  </div>
-                  <div className="space-y-4">
-                    {selectedMessage.responses?.map((response, index) => {
-                      // if (!response) return null; // Add this line
+               <div className="p-6 max-h-96 overflow-y-auto">
+  <div className="flex items-center gap-2 mb-4">
+    <MessageSquare className="w-5 h-5 text-pink-500" />
+    <h3 className="font-semibold text-gray-800">
+      Conversation
+    </h3>
+  </div>
+  
+  {/* Fixed Responses section - Removed the comment that was breaking JSX */}
+  <div className="space-y-4">
+    {selectedMessage.responses?.map((response, index) => {
+      // Add more validation
+      if (!response || !response.message) {
+        // console.log("Skipping invalid response:", response);
+        return null;
+      }
 
-                      return (
-                        <div key={index} className="flex items-start gap-4">
-                          <div
-                            className={`w-10 h-10 rounded-full flex items-center justify-center overflow-hidden ring-2 ${
-                              response?.isAdmin
-                                ? "bg-gradient-to-r from-pink-100 to-rose-100 ring-pink-200"
-                                : "bg-gradient-to-r from-gray-100 to-slate-100 ring-gray-200"
-                            }`}
-                          >
-                            {response?.isAdmin ? (
-                              <UserCheck className="w-5 h-5 text-pink-600" />
-                            ) : (
-                              getUserAvatar(response?.sentBy)
-                            )}
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-2">
-                              <span className="font-medium text-gray-800">
-                                {response?.isAdmin
-                                  ? "Admin"
-                                  : response?.sentBy?.name || "User"}
-                              </span>
-                              <span className="text-sm text-gray-500">
-                                {formatDate(response.sentAt)}
-                              </span>
-                            </div>
-                            <div
-                              className={`rounded-2xl p-4 border ${
-                                response?.isAdmin
-                                  ? "bg-gradient-to-r from-pink-50 to-rose-50 border-pink-200"
-                                  : "bg-gradient-to-r from-gray-50 to-slate-50 border-gray-200"
-                              }`}
-                            >
-                              <p className="text-gray-700 leading-relaxed">
-                                {response?.message}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
+      // console.log("Rendering response:", response);
+
+      return (
+        <div
+          key={`response-${index}-${response.sentAt || Date.now()}`}
+          className="flex items-start gap-4"
+        >
+          <div
+            className={`w-10 h-10 rounded-full flex items-center justify-center overflow-hidden ring-2 ${
+              response?.isAdmin
+                ? "bg-gradient-to-r from-pink-100 to-rose-100 ring-pink-200"
+                : "bg-gradient-to-r from-gray-100 to-slate-100 ring-gray-200"
+            }`}
+          >
+            {response?.isAdmin ? (
+              <UserCheck className="w-5 h-5 text-pink-600" />
+            ) : response?.sentBy?.profilePhoto ? (
+              <img
+                src={response.sentBy.profilePhoto}
+                alt="Profile"
+                className="w-full h-full object-cover rounded-full"
+                onError={(e) => {
+                  e.target.style.display = "none";
+                  e.target.nextSibling.style.display = "flex";
+                }}
+              />
+            ) : (
+              <User className="w-5 h-5 text-gray-600" />
+            )}
+          </div>
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="font-medium text-gray-800">
+                {response?.isAdmin
+                  ? "Admin"
+                  : response?.sentBy?.name || "User"}
+              </span>
+              <span className="text-sm text-gray-500">
+                {response?.sentAt
+                  ? formatDate(response.sentAt)
+                  : "Just now"}
+              </span>
+            </div>
+            <div
+              className={`rounded-2xl p-4 border ${
+                response?.isAdmin
+                  ? "bg-gradient-to-r from-pink-50 to-rose-50 border-pink-200"
+                  : "bg-gradient-to-r from-gray-50 to-slate-50 border-gray-200"
+              }`}
+            >
+              <p className="text-gray-700 leading-relaxed">
+                {response?.message}
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</div>
 
                 {/* Response Form */}
                 {/* Response Form */}

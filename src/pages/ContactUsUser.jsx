@@ -24,7 +24,6 @@ import Footer from "../components/Footer";
 import { useSocket } from "../context/SocketContext";
 import { useContactSocket } from "../hooks/useContactSocket";
 import { useNotifications } from "../hooks/useNotifications";
-
 const ContactUserDashboard = () => {
   const [messages, setMessages] = useState([]);
   const [selectedMessage, setSelectedMessage] = useState(null);
@@ -78,25 +77,25 @@ const ContactUserDashboard = () => {
   const [submittingNewMessage, setSubmittingNewMessage] = useState(false);
 
   useEffect(() => {
-    console.log("Socket service connection status:", isConnected);
-    console.log("Contact socket connection status:", contactSocketConnected);
-    console.log("Socket service instance:", socketService);
+    // console.log("Socket service connection status:", isConnected);
+    // console.log("Contact socket connection status:", contactSocketConnected);
+    // console.log("Socket service instance:", socketService);
 
     if (socketService && socketService.socket) {
-      console.log("Socket connected:", socketService.socket.connected);
-      console.log("Socket id:", socketService.socket.id);
+      // console.log("Socket connected:", socketService.socket.connected);
+      // console.log("Socket id:", socketService.socket.id);
 
       // Listen for connection events
       const handleConnect = () => {
-        console.log("Socket connected successfully");
+        // console.log("Socket connected successfully");
       };
 
       const handleDisconnect = () => {
-        console.log("Socket disconnected");
+        // console.log("Socket disconnected");
       };
 
       const handleConnectError = (error) => {
-        console.error("Socket connection error:", error);
+        // console.error("Socket connection error:", error);
       };
 
       socketService.socket.on("connect", handleConnect);
@@ -117,7 +116,7 @@ const ContactUserDashboard = () => {
   useEffect(() => {
     if (newResponses.length > 0 && selectedMessage) {
       // Add new responses to the selected message
-      console.log("Processing new responses:", newResponses);
+      // console.log("Processing new responses:", newResponses);
       setSelectedMessage((prev) => ({
         ...prev,
         responses: [...(prev.responses || []), ...newResponses],
@@ -477,7 +476,7 @@ const ContactUserDashboard = () => {
   useEffect(() => {
     if (socketService && isConnected) {
       const handleNewMessage = (data) => {
-        console.log("New message received:", data);
+        // console.log("New message received:", data);
 
         // Refresh messages list
         fetchMessages(currentPage);
@@ -489,7 +488,7 @@ const ContactUserDashboard = () => {
       };
 
       const handleAdminResponse = (data) => {
-        console.log("Admin response received:", data);
+        // console.log("Admin response received:", data);
 
         // If this is for the currently selected message, refresh its details
         if (data.contactId === selectedMessage?._id) {
@@ -501,7 +500,7 @@ const ContactUserDashboard = () => {
       };
 
       const handleStatusChange = (data) => {
-        console.log("Status change received:", data);
+        // console.log("Status change received:", data);
 
         // Update the selected message if it matches
         if (data.contactId === selectedMessage?._id) {
@@ -546,9 +545,9 @@ const ContactUserDashboard = () => {
   ]);
 
   useEffect(() => {
-    console.log("Typing users:", typingUsers);
-    console.log("Contact socket connected:", contactSocketConnected);
-    console.log("Selected message ID:", selectedMessage?._id);
+    // console.log("Typing users:", typingUsers);
+    // console.log("Contact socket connected:", contactSocketConnected);
+    // console.log("Selected message ID:", selectedMessage?._id);
   }, [typingUsers, contactSocketConnected, selectedMessage]);
 
   // Initial data fetching
@@ -666,16 +665,16 @@ const ContactUserDashboard = () => {
     if (isConnected && socketService && socketService.isConnected()) {
       return {
         connected: true,
-        label: "Live",
-        color: "text-green-600",
-        icon: <Wifi className="w-4 h-4 text-green-500" />,
+        // label: "Live",
+        // color: "text-green-600",
+        // icon: <Wifi className="w-4 h-4 text-green-500" />,
       };
     } else {
       return {
         connected: false,
-        label: "Offline",
-        color: "text-red-600",
-        icon: <WifiOff className="w-4 h-4 text-red-500" />,
+        // label: "Offline",
+        // color: "text-red-600",
+        // icon: <WifiOff className="w-4 h-4 text-red-500" />,
       };
     }
   };
@@ -860,13 +859,13 @@ const ContactUserDashboard = () => {
                           {getStatusIcon(message.status)}
                           {message.status}
                         </span>
-                        <span
+                        {/* <span
                           className={`px-2 py-1 rounded-full text-xs font-medium border ${getPriorityColor(
                             message.priority
                           )}`}
                         >
                           {message.priority}
-                        </span>
+                        </span> */}
                       </div>
                       <h3 className="font-medium text-gray-800 capitalize truncate">
                         {message.subject}
@@ -1098,13 +1097,13 @@ const ContactUserDashboard = () => {
                         {getStatusIcon(selectedMessage.status)}
                         {selectedMessage.status}
                       </span>
-                      <span
+                      {/* <span
                         className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium border ${getPriorityColor(
                           selectedMessage.priority
                         )}`}
                       >
                         {selectedMessage.priority}
-                      </span>
+                      </span> */}
                     </div>
                   </div>
 
