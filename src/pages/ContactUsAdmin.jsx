@@ -786,7 +786,7 @@ const AdminContactDashboard = () => {
                   {total}
                 </span>
               </div>
-              // Add this in your header section, after the connection status
+              {/* Refresh Button */}
               {(statusFilter !== "all" ||
                 priorityFilter !== "all" ||
                 searchTerm) && (
