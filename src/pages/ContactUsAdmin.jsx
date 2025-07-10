@@ -786,6 +786,18 @@ const AdminContactDashboard = () => {
                   {total}
                 </span>
               </div>
+              // Add this in your header section, after the connection status
+              {(statusFilter !== "all" ||
+                priorityFilter !== "all" ||
+                searchTerm) && (
+                <button
+                  onClick={() => fetchMessages(currentPage)}
+                  className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl hover:shadow-lg transition-all duration-200"
+                >
+                  <AlertCircle className="w-4 h-4" />
+                  Refresh
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -1132,83 +1144,85 @@ const AdminContactDashboard = () => {
                 )}
 
                 {/* Responses */}
-               <div className="p-6 max-h-96 overflow-y-auto">
-  <div className="flex items-center gap-2 mb-4">
-    <MessageSquare className="w-5 h-5 text-pink-500" />
-    <h3 className="font-semibold text-gray-800">
-      Conversation
-    </h3>
-  </div>
-  
-  {/* Fixed Responses section - Removed the comment that was breaking JSX */}
-  <div className="space-y-4">
-    {selectedMessage.responses?.map((response, index) => {
-      // Add more validation
-      if (!response || !response.message) {
-        // console.log("Skipping invalid response:", response);
-        return null;
-      }
+                <div className="p-6 max-h-96 overflow-y-auto">
+                  <div className="flex items-center gap-2 mb-4">
+                    <MessageSquare className="w-5 h-5 text-pink-500" />
+                    <h3 className="font-semibold text-gray-800">
+                      Conversation
+                    </h3>
+                  </div>
 
-      // console.log("Rendering response:", response);
+                  {/* Fixed Responses section - Removed the comment that was breaking JSX */}
+                  <div className="space-y-4">
+                    {selectedMessage.responses?.map((response, index) => {
+                      // Add more validation
+                      if (!response || !response.message) {
+                        // console.log("Skipping invalid response:", response);
+                        return null;
+                      }
 
-      return (
-        <div
-          key={`response-${index}-${response.sentAt || Date.now()}`}
-          className="flex items-start gap-4"
-        >
-          <div
-            className={`w-10 h-10 rounded-full flex items-center justify-center overflow-hidden ring-2 ${
-              response?.isAdmin
-                ? "bg-gradient-to-r from-pink-100 to-rose-100 ring-pink-200"
-                : "bg-gradient-to-r from-gray-100 to-slate-100 ring-gray-200"
-            }`}
-          >
-            {response?.isAdmin ? (
-              <UserCheck className="w-5 h-5 text-pink-600" />
-            ) : response?.sentBy?.profilePhoto ? (
-              <img
-                src={response.sentBy.profilePhoto}
-                alt="Profile"
-                className="w-full h-full object-cover rounded-full"
-                onError={(e) => {
-                  e.target.style.display = "none";
-                  e.target.nextSibling.style.display = "flex";
-                }}
-              />
-            ) : (
-              <User className="w-5 h-5 text-gray-600" />
-            )}
-          </div>
-          <div className="flex-1">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="font-medium text-gray-800">
-                {response?.isAdmin
-                  ? "Admin"
-                  : response?.sentBy?.name || "User"}
-              </span>
-              <span className="text-sm text-gray-500">
-                {response?.sentAt
-                  ? formatDate(response.sentAt)
-                  : "Just now"}
-              </span>
-            </div>
-            <div
-              className={`rounded-2xl p-4 border ${
-                response?.isAdmin
-                  ? "bg-gradient-to-r from-pink-50 to-rose-50 border-pink-200"
-                  : "bg-gradient-to-r from-gray-50 to-slate-50 border-gray-200"
-              }`}
-            >
-              <p className="text-gray-700 leading-relaxed">
-                {response?.message}
-              </p>
-            </div>
-          </div>
-        </div>
-      );
-    })}
-  </div>
-</div>
+                      // console.log("Rendering response:", response);
+
+                      return (
+                        <div
+                          key={`response-${index}-${
+                            response.sentAt || Date.now()
+                          }`}
+                          className="flex items-start gap-4"
+                        >
+                          <div
+                            className={`w-10 h-10 rounded-full flex items-center justify-center overflow-hidden ring-2 ${
+                              response?.isAdmin
+                                ? "bg-gradient-to-r from-pink-100 to-rose-100 ring-pink-200"
+                                : "bg-gradient-to-r from-gray-100 to-slate-100 ring-gray-200"
+                            }`}
+                          >
+                            {response?.isAdmin ? (
+                              <UserCheck className="w-5 h-5 text-pink-600" />
+                            ) : response?.sentBy?.profilePhoto ? (
+                              <img
+                                src={response.sentBy.profilePhoto}
+                                alt="Profile"
+                                className="w-full h-full object-cover rounded-full"
+                                onError={(e) => {
+                                  e.target.style.display = "none";
+                                  e.target.nextSibling.style.display = "flex";
+                                }}
+                              />
+                            ) : (
+                              <User className="w-5 h-5 text-gray-600" />
+                            )}
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              <span className="font-medium text-gray-800">
+                                {response?.isAdmin
+                                  ? "Admin"
+                                  : response?.sentBy?.name || "User"}
+                              </span>
+                              <span className="text-sm text-gray-500">
+                                {response?.sentAt
+                                  ? formatDate(response.sentAt)
+                                  : "Just now"}
+                              </span>
+                            </div>
+                            <div
+                              className={`rounded-2xl p-4 border ${
+                                response?.isAdmin
+                                  ? "bg-gradient-to-r from-pink-50 to-rose-50 border-pink-200"
+                                  : "bg-gradient-to-r from-gray-50 to-slate-50 border-gray-200"
+                              }`}
+                            >
+                              <p className="text-gray-700 leading-relaxed">
+                                {response?.message}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
 
                 {/* Response Form */}
                 {/* Response Form */}
