@@ -57,16 +57,15 @@ const Checkout = () => {
   const getTotalWithDuration = (item) => {
     const days = calculateDays(item.startDate, item.endDate);
     const price = item.price || 0;
-    const quantity = item.qty || item.quantity || 1;
-    return price * quantity * days;
+    const quantity = 1;
+    return Math.round(price * quantity * days);
   };
 
   // Calculate cart totals
-  const cartSubtotal = cartItems.reduce(
-    (sum, item) => sum + getTotalWithDuration(item),
-    0
+  const cartSubtotal = Math.round(
+    cartItems.reduce((sum, item) => sum + getTotalWithDuration(item), 0)
   );
-  const grandTotal = cartSubtotal - discount;
+  const grandTotal = Math.round(cartSubtotal - discount);
 
   // Helper function to get placeholder image
   const getPlaceholderImage = (width = 80, height = 80) => {
@@ -146,36 +145,36 @@ const Checkout = () => {
   }, [userId]);
 
   const verifyGiftCode = async () => {
-  if (!giftCode.trim()) {
-    alert("Please enter a gift code");
-    return;
-  }
-
-  try {
-    const res = await fetch(
-      `${import.meta.env.VITE_BACKEND_URL}/giftcards/verify`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          code: giftCode, // ✅ Use the same variable
-          orderAmount: cartSubtotal,
-        }),
-      }
-    );
-    
-    const data = await res.json(); // ✅ Parse JSON response
-    
-    if (!res.ok) {
-      throw new Error(data.error || "Invalid gift code");
+    if (!giftCode.trim()) {
+      alert("Please enter a gift code");
+      return;
     }
-    
-    setDiscount(data.data.discountAmount); // ✅ Use discountAmount from response
-    alert(`Gift code applied! ₹${data.data.discountAmount} off`);
-  } catch (err) {
-    alert(err.message || "Invalid gift code");
-  }
-};
+
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/giftcards/verify`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            code: giftCode, // ✅ Use the same variable
+            orderAmount: cartSubtotal,
+          }),
+        }
+      );
+
+      const data = await res.json(); // ✅ Parse JSON response
+
+      if (!res.ok) {
+        throw new Error(data.error || "Invalid gift code");
+      }
+
+      setDiscount(Math.round(data.data.discountAmount)); // ✅ Use discountAmount from response
+      alert(`Gift code applied! ₹${data.data.discountAmount} off`);
+    } catch (err) {
+      alert(err.message || "Invalid gift code");
+    }
+  };
 
   const handleInputChange = (field, value) => {
     if (field.includes(".")) {
@@ -340,19 +339,22 @@ const Checkout = () => {
 
             if (verifyResponse.data.success) {
               if (discount > 0 && giftCode) {
-    try {
-      await fetch(`${import.meta.env.VITE_BACKEND_URL}/giftcards/apply`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          code: giftCode,
-          orderAmount: cartSubtotal,
-        }),
-      });
-    } catch (error) {
-      console.error("Failed to apply gift card:", error);
-    }
-  }
+                try {
+                  await fetch(
+                    `${import.meta.env.VITE_BACKEND_URL}/giftcards/apply`,
+                    {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        code: giftCode,
+                        orderAmount: cartSubtotal,
+                      }),
+                    }
+                  );
+                } catch (error) {
+                  console.error("Failed to apply gift card:", error);
+                }
+              }
 
               alert("Payment successful! Order placed.");
 
