@@ -193,7 +193,7 @@ export default function Navbar() {
 
             {/* Call Us Button */}
             <Link
-              to="tel:+919721288881"
+              to="tel:+919721288883"
               className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-amber-500 to-yellow-600 text-white text-sm font-bold rounded-md hover:from-amber-600 hover:to-yellow-700 transition-all duration-200 shadow-md ml-4"
             >
               <Phone size={16} />
@@ -304,7 +304,7 @@ export default function Navbar() {
 
               {/* Mobile Call Us */}
               <Link
-                to="tel:+919721288881"
+                to="tel:+919721288883"
                 className="flex items-center gap-3 px-3 py-2 bg-gradient-to-r from-amber-400 to-yellow-500 text-white font-bold rounded-md mt-4 mx-3"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
