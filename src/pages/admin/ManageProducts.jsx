@@ -29,6 +29,9 @@ const ManageProducts = () => {
     if (confirm("Are you sure you want to delete this product?")) {
       try {
         await fetch(`${import.meta.env.VITE_BACKEND_URL}/products/${id}`, {
+           headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
           method: 'DELETE'
         });
         fetchProducts();
