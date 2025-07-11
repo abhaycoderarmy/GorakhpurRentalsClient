@@ -21,6 +21,15 @@ const OrderConfirmation = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // Check if alert was already shown for this order
+  useEffect(() => {
+    const alertKey = `alert_shown_${orderId}`;
+    const wasAlertShown = localStorage.getItem(alertKey);
+    if (wasAlertShown) {
+      setAlertAccepted(true);
+    }
+  }, [orderId]);
+
   useEffect(() => {
     const fetchOrder = async () => {
       try {
@@ -42,8 +51,18 @@ const OrderConfirmation = () => {
         
         if (response.data.success) {
           setOrder(response.data.order);
-          // Show alert only if order is confirmed and alert hasn't been accepted yet
-          if (response.data.order.orderStatus === 'confirmed' && !alertAccepted) {
+          
+          // Check if alert should be shown
+          const alertKey = `alert_shown_${orderId}`;
+          const wasAlertShown = localStorage.getItem(alertKey);
+          
+          // Show alert if order exists and alert hasn't been shown before
+          if (response.data.order && !wasAlertShown) {
+            console.log("Setting showAlert to true", {
+              orderStatus: response.data.order.orderStatus,
+              wasAlertShown,
+              alertAccepted
+            });
             setShowAlert(true);
           }
         } else {
@@ -69,11 +88,15 @@ const OrderConfirmation = () => {
       setError("Invalid order ID");
       setLoading(false);
     }
-  }, [orderId, alertAccepted]);
+  }, [orderId]);
 
   const handleAcceptAlert = () => {
     setAlertAccepted(true);
     setShowAlert(false);
+    
+    // Store that alert was shown for this order
+    const alertKey = `alert_shown_${orderId}`;
+    localStorage.setItem(alertKey, 'true');
   };
 
   // Calculate time since order was placed
@@ -262,7 +285,7 @@ const OrderConfirmation = () => {
   }
 
   // Show alert modal if conditions are met
-  if (showAlert && order.orderStatus === 'confirmed' && !alertAccepted) {
+  if (showAlert && order && !alertAccepted) {
     return <AlertModal />;
   }
 
