@@ -11,13 +11,13 @@ class SocketService {
   connect(token) {
     // If already connected, return existing socket
     if (this.socket && this.socket.connected) {
-      console.log('Socket already connected, returning existing instance');
+      // console.log('Socket already connected, returning existing instance');
       return this.socket;
     }
 
     // If already connecting, return the socket instance
     if (this.isConnecting) {
-      console.log('Socket is connecting, returning pending instance');
+      // console.log('Socket is connecting, returning pending instance');
       return this.socket;
     }
 
@@ -27,7 +27,7 @@ class SocketService {
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
     const API_BASE_URL = BACKEND_URL.replace('/api/v1', '');
     
-    console.log('Connecting to socket server:', API_BASE_URL);
+    // console.log('Connecting to socket server:', API_BASE_URL);
     
     // Connect to the default namespace (no /chat or other namespace)
     this.socket = io(API_BASE_URL, {
@@ -49,13 +49,13 @@ class SocketService {
 
     // Set up internal event listeners
     this.socket.on('connect', () => {
-      console.log('Connected to server with ID:', this.socket.id);
+      // console.log('Connected to server with ID:', this.socket.id);
       this.isConnecting = false;
       this.reconnectAttempts = 0;
     });
 
     this.socket.on('disconnect', (reason) => {
-      console.log('Disconnected from server:', reason);
+      // console.log('Disconnected from server:', reason);
       this.isConnecting = false;
       
       // Auto-reconnect for certain disconnect reasons
@@ -65,43 +65,43 @@ class SocketService {
     });
 
     this.socket.on('connect_error', (error) => {
-      console.error('Connection error:', error);
+      // console.error('Connection error:', error);
       this.isConnecting = false;
       this.reconnectAttempts++;
       
       if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-        console.error('Max reconnection attempts reached');
+        // console.error('Max reconnection attempts reached');
       }
     });
 
     this.socket.on('error', (error) => {
-      console.error('Socket error:', error);
+      // console.error('Socket error:', error);
     });
 
     this.socket.on('reconnect', (attemptNumber) => {
-      console.log('Reconnected after', attemptNumber, 'attempts');
+      // console.log('Reconnected after', attemptNumber, 'attempts');
       this.reconnectAttempts = 0;
     });
 
     this.socket.on('reconnect_failed', () => {
-      console.error('Reconnection failed after all attempts');
+      // console.error('Reconnection failed after all attempts');
     });
 
     // Listen for room join confirmations
     this.socket.on('contact_room_joined', (data) => {
-      console.log('Successfully joined contact room:', data.contactId);
+      // console.log('Successfully joined contact room:', data.contactId);
     });
 
     this.socket.on('contact_room_left', (data) => {
-      console.log('Successfully left contact room:', data.contactId);
+      // console.log('Successfully left contact room:', data.contactId);
     });
 
     this.socket.on('admin_room_joined', () => {
-      console.log('Successfully joined admin room');
+      // console.log('Successfully joined admin room');
     });
 
     this.socket.on('admin_room_left', () => {
-      console.log('Successfully left admin room');
+      // console.log('Successfully left admin room');
     });
 
     return this.socket;
@@ -120,7 +120,7 @@ class SocketService {
 
   disconnect() {
     if (this.socket) {
-      console.log('Disconnecting socket...');
+      // console.log('Disconnecting socket...');
       this.socket.disconnect();
       this.socket = null;
       this.isConnecting = false;
@@ -131,38 +131,38 @@ class SocketService {
   // Contact room management
   joinContactRoom(contactId) {
     if (this.socket && this.socket.connected && contactId) {
-      console.log('Joining contact room:', contactId);
+      // console.log('Joining contact room:', contactId);
       this.socket.emit('join_contact_room', { contactId });
     } else {
-      console.warn('Cannot join contact room: socket not connected or invalid contactId');
+      // console.warn('Cannot join contact room: socket not connected or invalid contactId');
     }
   }
 
   leaveContactRoom(contactId) {
     if (this.socket && this.socket.connected && contactId) {
-      console.log('Leaving contact room:', contactId);
+      // console.log('Leaving contact room:', contactId);
       this.socket.emit('leave_contact_room', { contactId });
     } else {
-      console.warn('Cannot leave contact room: socket not connected or invalid contactId');
+      // console.warn('Cannot leave contact room: socket not connected or invalid contactId');
     }
   }
 
   // Admin room management
   joinAdminRoom() {
     if (this.socket && this.socket.connected) {
-      console.log('Joining admin room');
+      // console.log('Joining admin room');
       this.socket.emit('join_admin_room');
     } else {
-      console.warn('Cannot join admin room: socket not connected');
+      // console.warn('Cannot join admin room: socket not connected');
     }
   }
 
   leaveAdminRoom() {
     if (this.socket && this.socket.connected) {
-      console.log('Leaving admin room');
+      // console.log('Leaving admin room');
       this.socket.emit('leave_admin_room');
     } else {
-      console.warn('Cannot leave admin room: socket not connected');
+      // console.warn('Cannot leave admin room: socket not connected');
     }
   }
 
@@ -171,7 +171,7 @@ class SocketService {
     if (this.socket && this.socket.connected && contactId) {
       this.socket.emit('user_typing', { contactId });
     } else {
-      console.warn('Cannot send typing indicator: socket not connected or invalid contactId');
+      // console.warn('Cannot send typing indicator: socket not connected or invalid contactId');
     }
   }
 
@@ -179,7 +179,7 @@ class SocketService {
     if (this.socket && this.socket.connected && contactId) {
       this.socket.emit('user_stopped_typing', { contactId });
     } else {
-      console.warn('Cannot stop typing indicator: socket not connected or invalid contactId');
+      // console.warn('Cannot stop typing indicator: socket not connected or invalid contactId');
     }
   }
 
@@ -188,7 +188,7 @@ class SocketService {
     if (this.socket && this.socket.connected && contactId) {
       this.socket.emit('admin_typing', { contactId });
     } else {
-      console.warn('Cannot send admin typing indicator: socket not connected or invalid contactId');
+      // console.warn('Cannot send admin typing indicator: socket not connected or invalid contactId');
     }
   }
 
@@ -196,7 +196,7 @@ class SocketService {
     if (this.socket && this.socket.connected && contactId) {
       this.socket.emit('admin_stopped_typing', { contactId });
     } else {
-      console.warn('Cannot stop admin typing indicator: socket not connected or invalid contactId');
+      // console.warn('Cannot stop admin typing indicator: socket not connected or invalid contactId');
     }
   }
 
@@ -209,7 +209,7 @@ class SocketService {
         timestamp: new Date().toISOString()
       });
     } else {
-      console.warn('Cannot send message: socket not connected or invalid data');
+      // console.warn('Cannot send message: socket not connected or invalid data');
     }
   }
 
@@ -218,7 +218,7 @@ class SocketService {
     if (this.socket && this.socket.connected && contactId && messageId) {
       this.socket.emit('mark_message_read', { contactId, messageId });
     } else {
-      console.warn('Cannot mark message as read: socket not connected or invalid data');
+      // console.warn('Cannot mark message as read: socket not connected or invalid data');
     }
   }
 
@@ -227,7 +227,7 @@ class SocketService {
     if (this.socket && this.socket.connected && contactId && status) {
       this.socket.emit('update_contact_status', { contactId, status });
     } else {
-      console.warn('Cannot update contact status: socket not connected or invalid data');
+      // console.warn('Cannot update contact status: socket not connected or invalid data');
     }
   }
 
@@ -246,7 +246,7 @@ class SocketService {
     if (this.socket && this.socket.connected) {
       this.socket.emit(eventName, data);
     } else {
-      console.warn(`Cannot emit ${eventName}: socket not connected`);
+      // console.warn(`Cannot emit ${eventName}: socket not connected`);
     }
   }
 

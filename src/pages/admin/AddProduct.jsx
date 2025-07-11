@@ -275,23 +275,7 @@ const response = await api.post(
         </div>
 
         
-        {/* <div className="mb-4 text-center">
-          <button 
-            type="button" 
-            onClick={() => {
-              console.log("=== DEBUG STATE ===");
-              console.log("availableDates:", availableDates);
-              console.log("excludedDates:", excludedDates);
-              console.log("selectedDate:", selectedDate);
-              console.log("dateRange:", dateRange);
-              console.log("selectedMode:", selectedMode);
-              console.log("=================");
-            }}
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
-            Debug State (Remove in Production)
-          </button>
-        </div> */}
+        
 
         {/* Form Container */}
         <div className="bg-white/80 backdrop-blur-sm shadow-2xl rounded-3xl border border-white/20 overflow-hidden">

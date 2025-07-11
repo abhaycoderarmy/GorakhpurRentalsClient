@@ -27,7 +27,7 @@ export const SocketProvider = ({ children }) => {
 
         // Set up event listeners
         const handleConnect = () => {
-          console.log('Socket connected successfully');
+          // console.log('Socket connected successfully');
           setIsConnected(true);
           setConnectionError(null);
         };
@@ -88,7 +88,7 @@ export const SocketProvider = ({ children }) => {
         setConnectionError(error.message);
       }
     } else {
-      console.warn('No token found, socket connection not initialized');
+      // console.warn('No token found, socket connection not initialized');
     }
   }, []);
 
