@@ -55,10 +55,10 @@ const Checkout = () => {
 
   // Calculate total with rental duration
   const getTotalWithDuration = (item) => {
-    const days = calculateDays(item.startDate, item.endDate);
+    // const days = calculateDays(item.startDate, item.endDate);
     const price = item.price || 0;
     const quantity = 1;
-    return Math.round(price * quantity * days);
+    return Math.round(price * quantity );
   };
 
   // Calculate cart totals
