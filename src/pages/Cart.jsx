@@ -43,7 +43,7 @@ export default function CartPage() {
   // Use 'items' instead of 'cart'
   const cart = items;
 
-  const total = cart.reduce((sum, p) => sum + (p.price || 0), 0); // Remove quantity
+ const total = cart.reduce((sum, p) => sum + Math.ceil(p.price || 0), 0);
   const totalItems = cart.length; // Count items instead of quantities
   // Add this function after your existing functions
   const showToast = (message, type = "success") => {
@@ -171,13 +171,14 @@ export default function CartPage() {
     const days = calculateDays(item.startDate, item.endDate);
     const price = item.price || 0;
     const quantity = item.qty || item.quantity || 0;
-    return price * Math.max(days, 1);
+    const total = price * Math.max(days, 1);
+  return Math.ceil(total);
   };
 
-  const grandTotal = cart.reduce(
-    (sum, item) => sum + getTotalWithDuration(item),
-    0
-  );
+ const grandTotal = Math.ceil(cart.reduce(
+  (sum, item) => sum + getTotalWithDuration(item),
+  0
+));
 
   // Format date for input (YYYY-MM-DD)
   const formatDateForInput = (dateString) => {
