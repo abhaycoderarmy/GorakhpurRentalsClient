@@ -161,7 +161,7 @@ Get In Touch
                 Speak directly with our team
               </p>
               <a
-                href="tel:+919721288883"
+                href="tel:+917825090909"
                 className="bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600 transition-colors text-sm"
               >
                 Call Now
