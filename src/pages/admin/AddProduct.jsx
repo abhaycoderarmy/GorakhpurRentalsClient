@@ -248,7 +248,7 @@ const response = await api.post(
 );
       console.log("Product created successfully:", response.data);
       setSuccess("Product added successfully!");
-      setTimeout(() => navigate("/admin"), 1500);
+      setTimeout(() => navigate("/admin/products"), 1500);
     } catch (err) {
       console.error("Error creating product:", err);
       setError(err.response?.data?.message || "Failed to add product");
