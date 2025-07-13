@@ -1443,7 +1443,7 @@ export default function ProductDetails() {
               {product.rentDuration && product.rentDuration.length > 0 && (
                 <div className="mb-8">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                    Select Rental Duration:
+                    Rental Duration:
                   </h3>
                   <div className="flex flex-wrap gap-3">
                     {product.rentDuration.map((duration) => (
