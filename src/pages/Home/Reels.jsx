@@ -8,6 +8,10 @@ export default function ReelsShowcase() {
 
   // Your 9 reel videos - replace with your actual video URLs
   const reelsData = [
+    "https://res.cloudinary.com/dyupxhasl/video/upload/v1752426277/gorakhpurrentalstudio-20250713-0004_typtfx.mp4",
+    "https://res.cloudinary.com/dyupxhasl/video/upload/v1752426276/gorakhpurrentalstudio-20250713-0001_z7ncxu.mp4",
+    "https://res.cloudinary.com/dyupxhasl/video/upload/v1752426274/gorakhpurrentalstudio-20250713-0002_ekfrht.mp4",
+    "https://res.cloudinary.com/dyupxhasl/video/upload/v1752426267/gorakhpurrentalstudio-20250713-0003_iips7p.mp4",
     "https://res.cloudinary.com/dpzagdlky/video/upload/v1751282255/nsp5x3nrrsi6acd1nwzl.mp4", // Replace with your video URLs
     "https://res.cloudinary.com/dpzagdlky/video/upload/v1751282259/n6vcudjuyuziapiaemxc.mp4",
     "https://res.cloudinary.com/dpzagdlky/video/upload/v1751282268/u4gd0siuvqwzbqlnhxe3.mp4",
