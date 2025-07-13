@@ -118,7 +118,7 @@ Get In Touch
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-800">Phone Number</h3>
-                    <p className="text-gray-600 mt-1">+91 97212 88883</p>
+                    <p className="text-gray-600 mt-1">+91 78250 90909</p>
                   </div>
                 </div>
 

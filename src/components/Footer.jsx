@@ -442,7 +442,7 @@ export default function Footer() {
                 >
                   <Phone className="w-5 h-5 text-pink-500" />
                   <div className="text-center sm:text-left">
-                    <p className="font-medium">+91 97212 88883</p>
+                    <p className="font-medium">+91 78250 90909</p>
                     <p className="text-xs text-gray-500">Call for bookings</p>
                   </div>
                 </a>
