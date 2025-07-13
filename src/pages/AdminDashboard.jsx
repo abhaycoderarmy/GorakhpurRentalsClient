@@ -435,7 +435,7 @@ const AdminDashboard = ({ user, onNavigate }) => {
                 <Sparkles className="w-8 h-8 text-white" />
               </div>
               <div>
-                <h1 className="text-4xl font-bold text-gray-800">Welcome Back, {userName}!</h1>
+                <h1 className="text-4xl font-bold text-gray-800">Welcome Back, Seema Jaiswal!</h1>
                 <p className="text-gray-600 text-lg">Here's what's happening with your rental business today.</p>
               </div>
             </div>

@@ -103,7 +103,7 @@ export default function AdminFooter() {
                     {user?.user?.name || "Admin User"}
                   </p>
                   <p className="text-xs text-green-600">
-                    {user?.user?.email || "admin@gorakhpurrentals.com"}
+                    {user?.user?.email || "gorakhpurweddingrental@gmail.com"}
                   </p>
                 </div>
               </div>
@@ -153,7 +153,7 @@ export default function AdminFooter() {
               </li>
               <li>
                 <a
-                  href="tel:+91XXXXXXXXXX"
+                  href="tel:+917825090909"
                   className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-green-700 hover:text-green-900 hover:bg-green-50 rounded-md transition-all duration-200 hover:translate-x-1 group"
                 >
                   <Phone size={16} className="transition-transform duration-200 group-hover:scale-110" />
@@ -162,7 +162,7 @@ export default function AdminFooter() {
               </li>
               <li>
                 <a
-                  href="mailto:admin@gorakhpurrentals.com"
+                  href="mailto:gorakhpurweddingrental@gmail.com"
                   className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-purple-700 hover:text-purple-900 hover:bg-purple-50 rounded-md transition-all duration-200 hover:translate-x-1 group"
                 >
                   <Mail size={16} className="transition-transform duration-200 group-hover:scale-110" />
@@ -217,7 +217,7 @@ export default function AdminFooter() {
               <div className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-amber-600" />
                 <div>
-                  <p className="text-sm text-gray-700 font-medium">+91 XXXXX XXXXX</p>
+                  <p className="text-sm text-gray-700 font-medium">+91 78250 90909</p>
                   <p className="text-xs text-gray-600">Business Line</p>
                 </div>
               </div>
