@@ -278,7 +278,7 @@ export default function VerifyOtp() {
           <div className="text-center mt-6">
             <p className="text-sm text-gray-500">
               Need help?{" "}
-              <a href="/support" className="text-indigo-600 hover:underline">
+              <a href="/contact" className="text-indigo-600 hover:underline">
                 Contact Support
               </a>
             </p>

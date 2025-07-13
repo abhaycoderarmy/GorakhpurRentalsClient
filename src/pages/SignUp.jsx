@@ -238,7 +238,7 @@ export default function Signup() {
               <h3 className="font-medium text-gray-900 mb-1">Need Help?</h3>
               <p className="text-xs text-gray-600 mb-2">We're here to assist</p>
               <button
-                onClick={() => navigate("/support")}
+                onClick={() => navigate("/contact")}
                 className="text-xs text-blue-600 hover:text-blue-500 font-medium"
               >
                 Get Support →

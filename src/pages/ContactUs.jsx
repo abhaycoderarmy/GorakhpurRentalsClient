@@ -129,11 +129,11 @@ Get In Touch
                   <div>
                     <h3 className="font-semibold text-gray-800">Email Address</h3>
                     <p className="text-gray-600 mt-1">
-                      info@gorakhpur.rental.com
+                     gorakhpurweddingrental@gmail.com
                     </p>
-                    <p className="text-gray-600">
+                    {/* <p className="text-gray-600">
                       support@gorakhpur.rental.com
-                    </p>
+                    </p> */}
                   </div>
                 </div>
 

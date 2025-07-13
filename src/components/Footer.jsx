@@ -118,7 +118,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <a
-                    href="mailto:admin@gorakhpurrentals.com"
+                    href="mailto:gorakhpurweddingrental@gmail.com"
                     className="flex items-center gap-2 text-gray-600 hover:text-pink-700 hover:translate-x-1 transition-all duration-200"
                   >
                     <Mail size={16} className="text-pink-500" />
@@ -449,12 +449,12 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:info@gorakhpurrentals.com"
+                  href="mailto:gorakhpurweddingrental@gmail.com"
                   className="flex items-center justify-center sm:justify-start gap-3 text-gray-600 hover:text-pink-700 transition-colors duration-200"
                 >
                   <Mail className="w-5 h-5 text-pink-500" />
                   <div className="text-center sm:text-left">
-                    <p className="font-medium">info@gorakhpurrentals.com</p>
+                    <p className="font-medium">gorakhpurweddingrental@gmail.com</p>
                     <p className="text-xs text-gray-500">Send us an email</p>
                   </div>
                 </a>

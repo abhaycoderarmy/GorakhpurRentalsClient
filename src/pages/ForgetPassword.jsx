@@ -384,7 +384,7 @@ export default function ForgotPassword() {
               If you're having trouble resetting your password, please contact our support team.
             </p>
             <button
-              onClick={() => navigate("/support")}
+              onClick={() => navigate("/contact")}
               className="text-sm text-amber-600 hover:text-amber-500 font-medium transition-colors duration-200"
             >
               Contact Support →
