@@ -13,22 +13,22 @@ export default function BrandShowcase() {
   const showcaseImages = [
     {
       id: 1,
-      image: "https://res.cloudinary.com/dpzagdlky/image/upload/v1749993876/gorakhpur_rentals/gy4tpm3shutk5yijfzjn.jpg",
+      image: "https://res.cloudinary.com/dyupxhasl/image/upload/v1752425442/gorakhpur_rentals/f1cze0bshffdgh6kzgel.jpg",
       title: "Craftsmanship Excellence"
     },
     {
       id: 2,
-      image: "https://res.cloudinary.com/dpzagdlky/image/upload/v1749993713/gorakhpur_rentals/mmstlqztrkusfpgc2an6.jpg",
+      image: "https://res.cloudinary.com/dyupxhasl/image/upload/v1752425065/gorakhpur_rentals/uwiyhszwufijcquzpwdb.jpg",
       title: "Elegant Designs"
     },
     {
       id: 3,
-      image: "https://res.cloudinary.com/dpzagdlky/image/upload/v1749993711/gorakhpur_rentals/vetkogdfwnf4acdon2f3.jpg",
+      image: "https://res.cloudinary.com/dyupxhasl/image/upload/v1752425519/gorakhpur_rentals/mljaddwupyokvkdddgr4.jpg",
       title: "Bridal Perfection"
     },
     {
       id: 4,
-      image: "https://res.cloudinary.com/dpzagdlky/image/upload/v1749993711/gorakhpur_rentals/vetkogdfwnf4acdon2f3.jpg",
+      image: "https://res.cloudinary.com/dyupxhasl/image/upload/v1752424423/gorakhpur_rentals/f3zxezloma9oskpd8ne2.jpg",
       title: "Premium Quality"
     },
     {
