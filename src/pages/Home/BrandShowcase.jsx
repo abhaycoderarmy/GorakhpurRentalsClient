@@ -33,7 +33,7 @@ export default function BrandShowcase() {
     },
     {
       id: 5,
-      image: "https://res.cloudinary.com/dpzagdlky/image/upload/v1749994315/x8ivdargtry7ogtn7hqu.jpg",
+      image: "https://res.cloudinary.com/dyupxhasl/image/upload/v1752424805/gorakhpur_rentals/ln361v3ydwedik7iddmt.jpg",
       title: "Timeless Beauty"
     }
   ];

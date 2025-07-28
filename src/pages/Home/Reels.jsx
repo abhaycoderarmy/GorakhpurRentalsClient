@@ -12,19 +12,22 @@ export default function ReelsShowcase() {
     "https://res.cloudinary.com/dyupxhasl/video/upload/v1752426276/gorakhpurrentalstudio-20250713-0001_z7ncxu.mp4",
     "https://res.cloudinary.com/dyupxhasl/video/upload/v1752426274/gorakhpurrentalstudio-20250713-0002_ekfrht.mp4",
     "https://res.cloudinary.com/dyupxhasl/video/upload/v1752426267/gorakhpurrentalstudio-20250713-0003_iips7p.mp4",
-    "https://res.cloudinary.com/dpzagdlky/video/upload/v1751282255/nsp5x3nrrsi6acd1nwzl.mp4", // Replace with your video URLs
-    "https://res.cloudinary.com/dpzagdlky/video/upload/v1751282259/n6vcudjuyuziapiaemxc.mp4",
-    "https://res.cloudinary.com/dpzagdlky/video/upload/v1751282268/u4gd0siuvqwzbqlnhxe3.mp4",
-    "https://res.cloudinary.com/dpzagdlky/video/upload/v1751282263/lxqwm6mgy3zmvzburzcz.mp4",
-    "https://res.cloudinary.com/dpzagdlky/video/upload/v1751282262/nfb0mg94hncnwizhqqbw.mp4",
-    "https://res.cloudinary.com/dpzagdlky/video/upload/v1751282262/s1sze6w2geedfzkeqmdp.mp4",
-    "https://res.cloudinary.com/dpzagdlky/video/upload/v1751282256/chuedywjra7zrpmfhxve.mp4",
-    "https://res.cloudinary.com/dpzagdlky/video/upload/v1751282254/thxgxw1l9tl5eqpj6egr.mp4",
-    "https://res.cloudinary.com/dpzagdlky/video/upload/v1751282257/tuty8yvzygegrrl5pjxo.mp4",
-    "https://res.cloudinary.com/dpzagdlky/video/upload/v1751282263/nv8d0fn5qnpmuo6a0msb.mp4",
-    "https://res.cloudinary.com/dpzagdlky/video/upload/v1751282263/lho1ddy7eseru0on9mgd.mp4",
-    "https://res.cloudinary.com/dpzagdlky/video/upload/v1751282256/iqwbx1w3njf4wgfqnq9k.mp4",
-    "https://res.cloudinary.com/dpzagdlky/video/upload/v1750580661/GorakhpurRentals/qlvxxuzyt1tbtwqt1ktr.mp4"
+    "https://res.cloudinary.com/dyupxhasl/video/upload/v1753722793/gorakhpurrentalstudio-20250622-0001_feysxv.mp4", // Replace with your video URLs
+    "https://res.cloudinary.com/dyupxhasl/video/upload/v1753722795/gorakhpurrentalstudio-20250622-0002_lifot2.mp4",
+    "https://res.cloudinary.com/dyupxhasl/video/upload/v1753722795/gorakhpurrentalstudio-20250622-0006_wam9eu.mp4",
+    "https://res.cloudinary.com/dyupxhasl/video/upload/v1753722796/gorakhpurrentalstudio-20250622-0007_cfdxml.mp4",
+    "https://res.cloudinary.com/dyupxhasl/video/upload/v1753722801/gorakhpurrentalstudio-20250622-0009_cm3uzq.mp4",
+    "https://res.cloudinary.com/dyupxhasl/video/upload/v1753722801/gorakhpurrentalstudio-20250622-0010_fcst1a.mp4",
+    "https://res.cloudinary.com/dyupxhasl/video/upload/v1753722805/gorakhpurrentalstudio-20250622-0008_t3uojv.mp4",
+    "https://res.cloudinary.com/dyupxhasl/video/upload/v1753722807/gorakhpurrentalstudio-20250622-0012_axg3ep.mp4",
+    "https://res.cloudinary.com/dyupxhasl/video/upload/v1753722807/gorakhpurrentalstudio-20250622-0011_i1fqwp.mp4",
+    "https://res.cloudinary.com/dyupxhasl/video/upload/v1753722811/gorakhpurrentalstudio-20250622-0015_v6eund.mp4",
+    "https://res.cloudinary.com/dyupxhasl/video/upload/v1753722811/gorakhpurrentalstudio-20250622-0014_in4kj4.mp4",
+    "https://res.cloudinary.com/dyupxhasl/video/upload/v1753722812/gorakhpurrentalstudio-20250622-0005_spjurc.mp4",
+    "https://res.cloudinary.com/dyupxhasl/video/upload/v1753722813/gorakhpurrentalstudio-20250622-0017_fnv3dt.mp4",
+    "https://res.cloudinary.com/dyupxhasl/video/upload/v1753722814/gorakhpurrentalstudio-20250622-0016_xgnuco.mp4",
+    "https://res.cloudinary.com/dyupxhasl/video/upload/v1753722815/gorakhpurrentalstudio-20250622-0013_wgl3lp.mp4",
+    "https://res.cloudinary.com/dyupxhasl/video/upload/v1753722826/gorakhpurrentalstudio-20250622-0004_fggdv5.mp4"
   ];
 
   // Handle responsive videos per slide
