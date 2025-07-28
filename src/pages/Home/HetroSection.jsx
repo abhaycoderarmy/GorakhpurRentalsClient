@@ -15,28 +15,28 @@ export default function HeroSection() {
     {
       id: 1,
       image:
-        "https://res.cloudinary.com/dpzagdlky/image/upload/v1750005468/fdiqr0ufwl0594q3gqmi.png",
+        "https://res.cloudinary.com/dyupxhasl/image/upload/v1753722091/des1_oforjo.png",
       title: "Exquisite Lehengas",
       subtitle: "Discover our stunning collection of traditional lehengas",
     },
     {
       id: 2,
       image:
-        "https://res.cloudinary.com/dpzagdlky/image/upload/v1750006189/cwqyxeujm5hljckcgwue.png",
+        "https://res.cloudinary.com/dyupxhasl/image/upload/v1753722091/des2_ifwofv.png",
       title: "Elegant Gowns",
       subtitle: "Perfect for special occasions and celebrations",
     },
     {
       id: 3,
       image:
-        "https://res.cloudinary.com/dpzagdlky/image/upload/v1750005468/fdiqr0ufwl0594q3gqmi.png",
+        "https://res.cloudinary.com/dyupxhasl/image/upload/v1753722091/des1_oforjo.png",
       title: "Bridal Collection",
       subtitle: "Make your special day unforgettable",
     },
     {
       id: 4,
       image:
-        "https://res.cloudinary.com/dpzagdlky/image/upload/v1750006189/cwqyxeujm5hljckcgwue.png",
+        "https://res.cloudinary.com/dyupxhasl/image/upload/v1753722091/des2_ifwofv.png",
       title: "Designer Wear",
       subtitle: "Curated pieces from renowned designers",
     },

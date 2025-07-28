@@ -11,7 +11,7 @@ const InstagramFollowBanner = () => {
       <div className="max-w-7xl mx-auto">
         <div className="cursor-pointer transition-transform hover:scale-[1.02] duration-300">
           <img
-            src="https://res.cloudinary.com/dpzagdlky/image/upload/v1750064574/kkncplwem31ouezdqnr7.png"
+            src="https://res.cloudinary.com/dyupxhasl/image/upload/v1753722089/Follow_us_on_Instagram_xy3udw.png"
             alt="Follow us on Instagram"
             onClick={handleInstagramClick}
             className="w-full h-auto rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 object-cover"

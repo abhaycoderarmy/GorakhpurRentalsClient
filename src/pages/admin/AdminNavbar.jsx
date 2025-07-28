@@ -46,7 +46,7 @@ export default function AdminNavbar() {
             <div className="relative transition-all duration-500 group-hover:rotate-3">
               <div className="w-20 h-20 rounded-2xl overflow-hidden shadow-lg transition-all duration-500 group-hover:shadow-2xl">
                 <img
-                  src="https://res.cloudinary.com/dpzagdlky/image/upload/v1750013431/hz34pwkz89ep5xwg73ue.png"
+                  src="https://res.cloudinary.com/dyupxhasl/image/upload/v1753722092/logo_k2ydzo.png"
                   alt="Gorakhpur Rentals Logo"
                   className="w-full h-full object-contain transition-all duration-500"
                 />

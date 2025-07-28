@@ -155,7 +155,7 @@ export default function Footer() {
               <div className="relative">
                 <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden shadow-xl transition-all duration-700 group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-6">
                   <img
-                    src="https://res.cloudinary.com/dpzagdlky/image/upload/v1750013431/hz34pwkz89ep5xwg73ue.png"
+                    src="https://res.cloudinary.com/dyupxhasl/image/upload/v1753722092/logo_k2ydzo.png"
                     alt="Gorakhpur Rentals Logo"
                     className="w-full h-full object-contain transition-all duration-700 group-hover:scale-110"
                   />
