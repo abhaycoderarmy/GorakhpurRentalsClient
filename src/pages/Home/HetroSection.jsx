@@ -15,9 +15,7 @@ export default function HeroSection() {
     {
       id: 1,
       image:
-        "https://res.cloudinary.com/dyupxhasl/image/upload/v1753722091/des1_oforjo.png",
-      title: "Exquisite Lehengas",
-      subtitle: "Discover our stunning collection of traditional lehengas",
+        "https://res.cloudinary.com/dpzagdlky/image/upload/v1758622366/qkq2zmqxavawjobfom5x.png",
     },
     {
       id: 2,
