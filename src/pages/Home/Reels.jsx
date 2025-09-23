@@ -9,8 +9,6 @@ export default function ReelsShowcase() {
   // Your 9 reel videos - replace with your actual video URLs
   const reelsData = [
     "https://res.cloudinary.com/dpzagdlky/video/upload/v1758618145/ofglvquisr8ugl1qoyx9.mp4",
-    "https://res.cloudinary.com/dpzagdlky/image/upload/v1758618138/jyzfpkbi0ge9agpi3pkk.jpg",
-    "https://res.cloudinary.com/dpzagdlky/image/upload/v1758618139/lgszqumkpxjik48q9rlb.jpg",
     "https://res.cloudinary.com/dpzagdlky/video/upload/v1758618142/ll4dphtorhx6bpnyep5q.mp4",
     "https://res.cloudinary.com/dpzagdlky/video/upload/v1758618143/zxo8k45p0aafuvfgvelr.mp4",
     "https://res.cloudinary.com/dpzagdlky/video/upload/v1758618143/m0kwjkwkbhevfqlzdcso.mp4", // Replace with your video URLs
