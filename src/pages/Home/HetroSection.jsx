@@ -94,7 +94,7 @@ export default function HeroSection() {
                     <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/90 mb-4 sm:mb-6 lg:mb-8 leading-relaxed">
                       {slide.subtitle}
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 lg:gap-4">
+                    {/* <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 lg:gap-4">
                       <button
                         onClick={handleNavigation}
                         className="px-4 sm:px-6 lg:px-8 py-2 sm:py-3 lg:py-4 bg-rose-600 text-white rounded-full font-semibold text-sm sm:text-base lg:text-lg hover:bg-rose-700 transform hover:scale-105 transition-all duration-300 shadow-lg"
@@ -107,7 +107,7 @@ export default function HeroSection() {
                       >
                         Shop Gowns
                       </button>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
